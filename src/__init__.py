@@ -10,6 +10,7 @@ from src.config_schema import (
     ReportConfig,
     PageConfig,
     BlockMapping,
+    ChartMapping,
     TextStyle,
     FontConfig,
     BackgroundConfig,
@@ -17,8 +18,9 @@ from src.config_schema import (
     create_default_config
 )
 from src.page_builder import PageBuilder
+from src.chart_builder import ChartBuilder
 
-__version__ = "1.0.0"
+__version__ = "1.1.0"
 
 __all__ = [
     'PDFGenerator',
@@ -27,10 +29,12 @@ __all__ = [
     'ReportConfig',
     'PageConfig',
     'BlockMapping',
+    'ChartMapping',
     'TextStyle',
     'FontConfig',
     'BackgroundConfig',
     'PaddingConfig',
     'PageBuilder',
+    'ChartBuilder',
     'create_default_config',
 ]

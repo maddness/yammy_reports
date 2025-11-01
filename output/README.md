@@ -29,6 +29,21 @@ A multi-page sales report showcasing:
 - Top products breakdown with visual styling
 - Professional layout with custom fonts and spacing
 
+### analytics.pdf
+Generated from:
+- **Config**: `configs/analytics_report.json`
+- **Data**: `examples/analytics_data.json`
+
+An advanced analytics dashboard with **beautiful charts** demonstrating:
+- **Bar charts**: Monthly revenue visualization with value labels
+- **Line charts**: Revenue trends over time
+- **Horizontal bar charts**: Product sales comparison
+- **Pie charts**: Market share breakdown by category
+- **Area charts**: Revenue growth visualization
+- Multi-page layout with branded cover page
+- Multiple chart types with different color schemes
+- Professional chart styling with matplotlib
+
 ## Regenerating Examples
 
 To regenerate these example PDFs, run:
@@ -42,4 +57,7 @@ python generate_report.py configs/invoice_report.json examples/invoice_data.json
 
 # Generate sales report
 python generate_report.py configs/sales_report.json examples/sales_data.json output/sales.pdf
+
+# Generate analytics dashboard with charts
+python generate_report.py configs/analytics_report.json examples/analytics_data.json output/analytics.pdf
 ```

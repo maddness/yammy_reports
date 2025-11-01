@@ -7,7 +7,8 @@ This module handles the mapping of JSON data to page elements using Jinja2 templ
 from typing import Any, Dict, List
 import json
 from jinja2 import Template, Environment, BaseLoader
-from src.config_schema import PageConfig, ReportConfig, BlockMapping
+from src.config_schema import PageConfig, ReportConfig, BlockMapping, ChartMapping
+from src.chart_builder import ChartBuilder, extract_chart_data
 
 
 class PageBuilder:
@@ -93,6 +94,63 @@ class PageBuilder:
 
         return rendered
 
+    def render_chart(self, chart: ChartMapping, data: Dict[str, Any]) -> str:
+        """
+        Render a chart block.
+
+        Args:
+            chart: Chart mapping configuration
+            data: Source JSON data
+
+        Returns:
+            Rendered HTML string with embedded chart image
+        """
+        # Extract data for this chart
+        chart_data_source = self.extract_data(data, chart.json_path)
+
+        if chart_data_source is None:
+            return ""
+
+        # Build chart configuration
+        chart_config = {
+            'labels_field': chart.labels_field,
+            'values_field': chart.values_field,
+            'x_field': chart.x_field,
+            'y_field': chart.y_field,
+            'series': chart.series,
+        }
+
+        # Extract and format chart data
+        formatted_data = extract_chart_data(chart_data_source, chart_config)
+
+        # Create chart builder
+        chart_builder = ChartBuilder(color_scheme=chart.color_scheme)
+
+        # Generate chart as base64 image
+        chart_kwargs = {
+            'xlabel': chart.xlabel,
+            'ylabel': chart.ylabel,
+            'show_values': chart.show_values,
+        }
+
+        image_data = chart_builder.create_chart(
+            chart_type=chart.chart_type,
+            data=formatted_data,
+            title=chart.title,
+            width=chart.width,
+            height=chart.height,
+            **chart_kwargs
+        )
+
+        # Render chart as img tag
+        rendered = f'<img src="{image_data}" style="max-width: 100%; height: auto;" />'
+
+        # Wrap in container if specified
+        if chart.container_class:
+            rendered = f'<div class="{chart.container_class}">{rendered}</div>'
+
+        return rendered
+
     def render_page(self, page: PageConfig, data: Dict[str, Any]) -> str:
         """
         Render a complete page with all its blocks.
@@ -120,6 +178,12 @@ class PageBuilder:
             block_html = self.render_block(block, data)
             if block_html:
                 blocks_html.append(block_html)
+
+        # Render all charts
+        for chart in page.charts:
+            chart_html = self.render_chart(chart, data)
+            if chart_html:
+                blocks_html.append(chart_html)
 
         # Build page HTML
         custom_css = page.custom_css or ""

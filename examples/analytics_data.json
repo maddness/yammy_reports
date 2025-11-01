@@ -1,0 +1,120 @@
+{
+  "report": {
+    "title": "Q4 2024 Analytics Dashboard",
+    "period": "October - December 2024",
+    "generated_date": "2024-11-01",
+    "description": "Comprehensive analysis of revenue performance and growth trends for the fourth quarter."
+  },
+  "monthly_revenue": [
+    {
+      "month": "Jan",
+      "revenue": 45000
+    },
+    {
+      "month": "Feb",
+      "revenue": 52000
+    },
+    {
+      "month": "Mar",
+      "revenue": 48000
+    },
+    {
+      "month": "Apr",
+      "revenue": 61000
+    },
+    {
+      "month": "May",
+      "revenue": 58000
+    },
+    {
+      "month": "Jun",
+      "revenue": 67000
+    },
+    {
+      "month": "Jul",
+      "revenue": 71000
+    },
+    {
+      "month": "Aug",
+      "revenue": 69000
+    },
+    {
+      "month": "Sep",
+      "revenue": 75000
+    },
+    {
+      "month": "Oct",
+      "revenue": 82000
+    },
+    {
+      "month": "Nov",
+      "revenue": 88000
+    },
+    {
+      "month": "Dec",
+      "revenue": 95000
+    }
+  ],
+  "product_sales": [
+    {
+      "product": "Enterprise Suite",
+      "units_sold": 1250
+    },
+    {
+      "product": "Professional Plan",
+      "units_sold": 3420
+    },
+    {
+      "product": "Basic Package",
+      "units_sold": 5680
+    },
+    {
+      "product": "Premium Add-ons",
+      "units_sold": 2150
+    },
+    {
+      "product": "Consulting Services",
+      "units_sold": 890
+    }
+  ],
+  "market_share": [
+    {
+      "category": "Software",
+      "percentage": 45.2
+    },
+    {
+      "category": "Services",
+      "percentage": 28.5
+    },
+    {
+      "category": "Training",
+      "percentage": 15.8
+    },
+    {
+      "category": "Support",
+      "percentage": 10.5
+    }
+  ],
+  "customer_segments": [
+    {
+      "segment": "Enterprise",
+      "count": 145,
+      "revenue": 425000
+    },
+    {
+      "segment": "Mid-Market",
+      "count": 387,
+      "revenue": 298000
+    },
+    {
+      "segment": "Small Business",
+      "count": 892,
+      "revenue": 178000
+    },
+    {
+      "segment": "Startup",
+      "count": 234,
+      "revenue": 89000
+    }
+  ]
+}

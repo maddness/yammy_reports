@@ -28,6 +28,7 @@ output/*.html
 # Exception: Keep example PDFs in repository
 !output/invoice.pdf
 !output/sales.pdf
+!output/analytics.pdf
 
 # Logs
 *.log

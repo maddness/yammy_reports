@@ -86,12 +86,33 @@ class BlockMapping:
 
 
 @dataclass
+class ChartMapping:
+    """Mapping of JSON data to chart visualization."""
+    json_path: str  # JSONPath expression to extract data
+    chart_type: str  # Type of chart: bar, line, pie, area, scatter, horizontal_bar
+    title: Optional[str] = None  # Chart title
+    width: int = 8  # Figure width in inches
+    height: int = 5  # Figure height in inches
+    color_scheme: str = "professional"  # Color scheme name
+    labels_field: Optional[str] = None  # Field name for labels (for list data)
+    values_field: Optional[str] = None  # Field name for values (for list data)
+    x_field: Optional[str] = None  # Field name for X values (scatter plots)
+    y_field: Optional[str] = None  # Field name for Y values (scatter plots)
+    series: Optional[List[Dict[str, str]]] = None  # Series config for multi-line charts
+    xlabel: str = ""  # X-axis label
+    ylabel: str = ""  # Y-axis label
+    show_values: bool = True  # Show value labels on bars
+    container_class: Optional[str] = None  # Optional CSS class for container
+
+
+@dataclass
 class PageConfig:
     """Configuration for a single page."""
     name: str
     background: BackgroundConfig = field(default_factory=BackgroundConfig)
     padding: PaddingConfig = field(default_factory=PaddingConfig)
     blocks: List[BlockMapping] = field(default_factory=list)
+    charts: List[ChartMapping] = field(default_factory=list)
     custom_css: Optional[str] = None  # Additional custom CSS for this page
 
 

@@ -1,0 +1,231 @@
+{
+  "name": "Analytics Dashboard Report",
+  "page_size": "A4",
+  "orientation": "portrait",
+  "fonts": {},
+  "text_styles": {
+    "report_title": {
+      "font": {
+        "family": "Arial",
+        "size": 32,
+        "weight": "bold",
+        "color": "#ffffff"
+      },
+      "line_height": 1.2,
+      "text_align": "center",
+      "margin_bottom": 20
+    },
+    "page_title": {
+      "font": {
+        "family": "Arial",
+        "size": 24,
+        "weight": "bold",
+        "color": "#2c3e50"
+      },
+      "line_height": 1.3,
+      "text_align": "left",
+      "margin_bottom": 20
+    },
+    "subtitle": {
+      "font": {
+        "family": "Arial",
+        "size": 14,
+        "weight": "normal",
+        "color": "#7f8c8d"
+      },
+      "line_height": 1.4,
+      "text_align": "center",
+      "margin_bottom": 30
+    },
+    "section_heading": {
+      "font": {
+        "family": "Arial",
+        "size": 16,
+        "weight": "bold",
+        "color": "#34495e"
+      },
+      "line_height": 1.4,
+      "margin_top": 30,
+      "margin_bottom": 15
+    },
+    "body_text": {
+      "font": {
+        "family": "Arial",
+        "size": 11,
+        "weight": "normal",
+        "color": "#333333"
+      },
+      "line_height": 1.6,
+      "margin_bottom": 10
+    }
+  },
+  "pages": [
+    {
+      "name": "cover",
+      "background": {
+        "color": "#3498db"
+      },
+      "padding": {
+        "top": 200,
+        "right": 40,
+        "bottom": 40,
+        "left": 40
+      },
+      "blocks": [
+        {
+          "json_path": "report.title",
+          "style": "report_title",
+          "template": "<h1 style='{{ style_css }}'>{{ data }}</h1>"
+        },
+        {
+          "json_path": "report.period",
+          "style": "subtitle",
+          "template": "<p style='{{ style_css }}'>{{ data }}</p>"
+        },
+        {
+          "json_path": "report.generated_date",
+          "style": "subtitle",
+          "template": "<p style='{{ style_css }}; color: #ecf0f1;'>Generated: {{ data }}</p>"
+        }
+      ],
+      "charts": []
+    },
+    {
+      "name": "revenue_analysis",
+      "background": {
+        "color": "#ffffff"
+      },
+      "padding": {
+        "top": 40,
+        "right": 40,
+        "bottom": 40,
+        "left": 40
+      },
+      "blocks": [
+        {
+          "json_path": "report.title",
+          "style": "page_title",
+          "template": "<h2 style='{{ style_css }}'>Revenue Analysis</h2>"
+        },
+        {
+          "json_path": "report.description",
+          "style": "body_text",
+          "template": "<p style='{{ style_css }}'>{{ data }}</p>"
+        }
+      ],
+      "charts": [
+        {
+          "json_path": "monthly_revenue",
+          "chart_type": "bar",
+          "title": "Monthly Revenue ($)",
+          "width": 10,
+          "height": 5,
+          "color_scheme": "professional",
+          "labels_field": "month",
+          "values_field": "revenue",
+          "xlabel": "Month",
+          "ylabel": "Revenue ($)",
+          "show_values": true,
+          "container_class": "chart-container"
+        },
+        {
+          "json_path": "monthly_revenue",
+          "chart_type": "line",
+          "title": "Revenue Trend Over Time",
+          "width": 10,
+          "height": 5,
+          "color_scheme": "ocean",
+          "labels_field": "month",
+          "values_field": "revenue",
+          "xlabel": "Month",
+          "ylabel": "Revenue ($)",
+          "container_class": "chart-container"
+        }
+      ],
+      "custom_css": ".chart-container { margin: 30px 0; text-align: center; }"
+    },
+    {
+      "name": "product_performance",
+      "background": {
+        "color": "#ffffff"
+      },
+      "padding": {
+        "top": 40,
+        "right": 40,
+        "bottom": 40,
+        "left": 40
+      },
+      "blocks": [
+        {
+          "json_path": "report.title",
+          "style": "page_title",
+          "template": "<h2 style='{{ style_css }}'>Product Performance</h2>"
+        }
+      ],
+      "charts": [
+        {
+          "json_path": "product_sales",
+          "chart_type": "horizontal_bar",
+          "title": "Sales by Product",
+          "width": 10,
+          "height": 6,
+          "color_scheme": "vibrant",
+          "labels_field": "product",
+          "values_field": "units_sold",
+          "xlabel": "Units Sold",
+          "ylabel": "Product",
+          "show_values": true,
+          "container_class": "chart-container"
+        },
+        {
+          "json_path": "market_share",
+          "chart_type": "pie",
+          "title": "Market Share by Product Category",
+          "width": 8,
+          "height": 6,
+          "color_scheme": "professional",
+          "labels_field": "category",
+          "values_field": "percentage",
+          "container_class": "chart-container"
+        }
+      ],
+      "custom_css": ".chart-container { margin: 30px 0; text-align: center; }"
+    },
+    {
+      "name": "trends",
+      "background": {
+        "color": "#ffffff"
+      },
+      "padding": {
+        "top": 40,
+        "right": 40,
+        "bottom": 40,
+        "left": 40
+      },
+      "blocks": [
+        {
+          "json_path": "report.title",
+          "style": "page_title",
+          "template": "<h2 style='{{ style_css }}'>Performance Trends</h2>"
+        }
+      ],
+      "charts": [
+        {
+          "json_path": "monthly_revenue",
+          "chart_type": "area",
+          "title": "Revenue Growth Area Chart",
+          "width": 10,
+          "height": 5,
+          "color_scheme": "earth",
+          "labels_field": "month",
+          "values_field": "revenue",
+          "xlabel": "Month",
+          "ylabel": "Revenue ($)",
+          "container_class": "chart-container"
+        }
+      ],
+      "custom_css": ".chart-container { margin: 30px 0; text-align: center; }"
+    }
+  ],
+  "global_css": "body { font-family: Arial, sans-serif; }"
+}

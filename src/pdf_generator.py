@@ -138,7 +138,7 @@ def load_config_from_dict(config_dict: Dict[str, Any]) -> ReportConfig:
         ReportConfig instance
     """
     from src.config_schema import (
-        ReportConfig, PageConfig, BlockMapping,
+        ReportConfig, PageConfig, BlockMapping, ChartMapping,
         TextStyle, FontConfig, BackgroundConfig, PaddingConfig
     )
 
@@ -178,11 +178,33 @@ def load_config_from_dict(config_dict: Dict[str, Any]) -> ReportConfig:
                 container_class=block_data.get('container_class')
             ))
 
+        # Parse charts
+        charts = []
+        for chart_data in page_data.get('charts', []):
+            charts.append(ChartMapping(
+                json_path=chart_data['json_path'],
+                chart_type=chart_data['chart_type'],
+                title=chart_data.get('title'),
+                width=chart_data.get('width', 8),
+                height=chart_data.get('height', 5),
+                color_scheme=chart_data.get('color_scheme', 'professional'),
+                labels_field=chart_data.get('labels_field'),
+                values_field=chart_data.get('values_field'),
+                x_field=chart_data.get('x_field'),
+                y_field=chart_data.get('y_field'),
+                series=chart_data.get('series'),
+                xlabel=chart_data.get('xlabel', ''),
+                ylabel=chart_data.get('ylabel', ''),
+                show_values=chart_data.get('show_values', True),
+                container_class=chart_data.get('container_class')
+            ))
+
         pages.append(PageConfig(
             name=page_data['name'],
             background=background,
             padding=padding,
             blocks=blocks,
+            charts=charts,
             custom_css=page_data.get('custom_css')
         ))
 
