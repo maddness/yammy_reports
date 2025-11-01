@@ -21,9 +21,13 @@ __pycache__/
 .DS_Store
 Thumbs.db
 
-# Output files (optional - remove if you want to commit generated PDFs)
+# Output files (ignore generated files but keep examples)
 output/*.pdf
 output/*.html
+
+# Exception: Keep example PDFs in repository
+!output/invoice.pdf
+!output/sales.pdf
 
 # Logs
 *.log
