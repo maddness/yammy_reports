@@ -1,0 +1,58 @@
+{
+  "report": {
+    "title": "Monthly Sales Report",
+    "period": "October 2024",
+    "generated_date": "2024-11-01",
+    "summary_title": "Executive Summary"
+  },
+  "metrics": {
+    "total_revenue": 145750.50,
+    "total_orders": 342,
+    "average_order_value": 426.17,
+    "growth_rate": 15.3
+  },
+  "top_products": [
+    {
+      "name": "Premium Widget Pro",
+      "units_sold": 156,
+      "revenue": 46800.00
+    },
+    {
+      "name": "Deluxe Service Package",
+      "units_sold": 89,
+      "revenue": 35600.00
+    },
+    {
+      "name": "Standard Widget",
+      "units_sold": 234,
+      "revenue": 28080.00
+    },
+    {
+      "name": "Basic Subscription",
+      "units_sold": 445,
+      "revenue": 22250.00
+    },
+    {
+      "name": "Enterprise Solution",
+      "units_sold": 12,
+      "revenue": 13020.50
+    }
+  ],
+  "regional_breakdown": [
+    {
+      "region": "North America",
+      "revenue": 65250.00,
+      "orders": 152
+    },
+    {
+      "region": "Europe",
+      "revenue": 48500.50,
+      "orders": 118
+    },
+    {
+      "region": "Asia Pacific",
+      "revenue": 32000.00,
+      "orders": 72
+    }
+  ]
+}

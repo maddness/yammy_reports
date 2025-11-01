@@ -1,0 +1,29 @@
+# Virtual environment
+venv/
+env/
+.env
+
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Output files (optional - remove if you want to commit generated PDFs)
+output/*.pdf
+output/*.html
+
+# Logs
+*.log

@@ -1,0 +1,166 @@
+{
+  "name": "Monthly Sales Report",
+  "page_size": "A4",
+  "orientation": "portrait",
+  "fonts": {},
+  "text_styles": {
+    "report_title": {
+      "font": {
+        "family": "Arial",
+        "size": 32,
+        "weight": "bold",
+        "color": "#ffffff"
+      },
+      "line_height": 1.2,
+      "text_align": "center",
+      "margin_bottom": 20
+    },
+    "page_title": {
+      "font": {
+        "family": "Arial",
+        "size": 24,
+        "weight": "bold",
+        "color": "#2c3e50"
+      },
+      "line_height": 1.3,
+      "text_align": "left",
+      "margin_bottom": 20
+    },
+    "subtitle": {
+      "font": {
+        "family": "Arial",
+        "size": 16,
+        "weight": "normal",
+        "color": "#7f8c8d"
+      },
+      "line_height": 1.4,
+      "text_align": "center",
+      "margin_bottom": 10
+    },
+    "metric_label": {
+      "font": {
+        "family": "Arial",
+        "size": 12,
+        "weight": "normal",
+        "color": "#7f8c8d"
+      },
+      "line_height": 1.3,
+      "margin_bottom": 5
+    },
+    "metric_value": {
+      "font": {
+        "family": "Arial",
+        "size": 28,
+        "weight": "bold",
+        "color": "#2c3e50"
+      },
+      "line_height": 1.2,
+      "margin_bottom": 20
+    },
+    "body_text": {
+      "font": {
+        "family": "Arial",
+        "size": 11,
+        "weight": "normal",
+        "color": "#333333"
+      },
+      "line_height": 1.6,
+      "margin_bottom": 8
+    }
+  },
+  "pages": [
+    {
+      "name": "cover",
+      "background": {
+        "color": "#3498db"
+      },
+      "padding": {
+        "top": 200,
+        "right": 40,
+        "bottom": 40,
+        "left": 40
+      },
+      "blocks": [
+        {
+          "json_path": "report.title",
+          "style": "report_title",
+          "template": "<h1 style='{{ style_css }}'>{{ data }}</h1>"
+        },
+        {
+          "json_path": "report.period",
+          "style": "subtitle",
+          "template": "<p style='{{ style_css }}; color: #ecf0f1;'>{{ data }}</p>"
+        },
+        {
+          "json_path": "report.generated_date",
+          "style": "subtitle",
+          "template": "<p style='{{ style_css }}; color: #bdc3c7;'>Generated: {{ data }}</p>"
+        }
+      ]
+    },
+    {
+      "name": "summary",
+      "background": {
+        "color": "#ffffff"
+      },
+      "padding": {
+        "top": 40,
+        "right": 40,
+        "bottom": 40,
+        "left": 40
+      },
+      "blocks": [
+        {
+          "json_path": "report.summary_title",
+          "style": "page_title",
+          "template": "<h2 style='{{ style_css }}'>{{ data }}</h2>"
+        },
+        {
+          "json_path": "metrics.total_revenue",
+          "style": "metric_label",
+          "template": "<div style='{{ style_css }}'>Total Revenue</div>"
+        },
+        {
+          "json_path": "metrics.total_revenue",
+          "style": "metric_value",
+          "template": "<div style='{{ style_css }}'>${{ '{:,.2f}'.format(data) }}</div>",
+          "container_class": "metric-box"
+        },
+        {
+          "json_path": "metrics.total_orders",
+          "style": "metric_label",
+          "template": "<div style='{{ style_css }}'>Total Orders</div>"
+        },
+        {
+          "json_path": "metrics.total_orders",
+          "style": "metric_value",
+          "template": "<div style='{{ style_css }}'>{{ data }}</div>",
+          "container_class": "metric-box"
+        },
+        {
+          "json_path": "metrics.average_order_value",
+          "style": "metric_label",
+          "template": "<div style='{{ style_css }}'>Average Order Value</div>"
+        },
+        {
+          "json_path": "metrics.average_order_value",
+          "style": "metric_value",
+          "template": "<div style='{{ style_css }}'>${{ '{:.2f}'.format(data) }}</div>",
+          "container_class": "metric-box"
+        },
+        {
+          "json_path": "top_products",
+          "style": "page_title",
+          "template": "<h3 style='{{ style_css }}; font-size: 18px; margin-top: 40px;'>Top Products</h3>"
+        },
+        {
+          "json_path": "top_products",
+          "style": "body_text",
+          "template": "{% for product in data %}<div style='{{ style_css }}; display: flex; justify-content: space-between; padding: 10px; background: #f8f9fa; margin-bottom: 8px; border-radius: 4px;'><div><strong>{{ product.name }}</strong><br><small>{{ product.units_sold }} units sold</small></div><div style='text-align: right; font-weight: bold;'>${{ '{:,.2f}'.format(product.revenue) }}</div></div>{% endfor %}"
+        }
+      ],
+      "custom_css": ".metric-box { background: #f8f9fa; padding: 20px; border-radius: 8px; margin-bottom: 30px; }"
+    }
+  ],
+  "global_css": "body { font-family: Arial, sans-serif; }"
+}

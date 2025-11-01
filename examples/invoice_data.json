@@ -1,0 +1,46 @@
+{
+  "company": {
+    "name": "ACME Corporation",
+    "address": "123 Business Street",
+    "city": "San Francisco",
+    "state": "CA",
+    "zip": "94102",
+    "phone": "(555) 123-4567",
+    "email": "billing@acme.com",
+    "footer": "Thank you for your business! Payment is due within 30 days. For questions, contact billing@acme.com"
+  },
+  "invoice": {
+    "number": "INV-2024-001",
+    "date": "2024-11-01",
+    "due_date": "2024-12-01",
+    "total": 2850.00
+  },
+  "customer": {
+    "name": "Tech Solutions Inc.",
+    "address": "456 Client Avenue",
+    "city": "Los Angeles",
+    "state": "CA",
+    "zip": "90001",
+    "email": "accounts@techsolutions.com"
+  },
+  "items": [
+    {
+      "description": "Web Development Services",
+      "quantity": 40,
+      "unit_price": 50.00,
+      "total": 2000.00
+    },
+    {
+      "description": "Design Consultation",
+      "quantity": 10,
+      "unit_price": 75.00,
+      "total": 750.00
+    },
+    {
+      "description": "Hosting Setup",
+      "quantity": 1,
+      "unit_price": 100.00,
+      "total": 100.00
+    }
+  ]
+}
