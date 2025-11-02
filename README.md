@@ -48,6 +48,11 @@ Generate a comprehensive analytics dashboard:
 python generate_report.py configs/analytics_report.json examples/analytics_data.json output/analytics.pdf
 ```
 
+Generate a taxi park analytics report (7 pages with detailed metrics and analysis):
+```bash
+python generate_report.py configs/taxi_park_analytics_report.json examples/taxi_park_analytics_data.json output/taxi_park_analytics.pdf
+```
+
 ## Project Structure
 
 ```
@@ -59,15 +64,17 @@ yammy_reports/
 │   ├── chart_builder.py         # Chart generation with matplotlib
 │   └── pdf_generator.py         # Main PDF generator class
 ├── configs/
-│   ├── invoice_report.json      # Invoice report configuration
-│   ├── sales_report.json        # Sales report configuration
-│   ├── analytics_report.json    # Analytics dashboard configuration
-│   └── taxi_park_ru_report.json # Russian taxi park analytics (5 pages)
+│   ├── invoice_report.json            # Invoice report configuration
+│   ├── sales_report.json              # Sales report configuration
+│   ├── analytics_report.json          # Analytics dashboard configuration
+│   ├── taxi_park_ru_report.json       # Russian taxi park analytics (5 pages)
+│   └── taxi_park_analytics_report.json # Comprehensive taxi park analytics (7 pages)
 ├── examples/
-│   ├── invoice_data.json        # Sample invoice data
-│   ├── sales_data.json          # Sample sales data
-│   ├── analytics_data.json      # Analytics dashboard data
-│   └── taxi_park_ru_data.json   # Russian taxi park data
+│   ├── invoice_data.json              # Sample invoice data
+│   ├── sales_data.json                # Sample sales data
+│   ├── analytics_data.json            # Analytics dashboard data
+│   ├── taxi_park_ru_data.json         # Russian taxi park data
+│   └── taxi_park_analytics_data.json  # Comprehensive taxi park analytics data
 ├── output/                       # Generated PDF files (created automatically)
 ├── generate_report.py           # CLI tool for generating reports
 └── requirements.txt             # Python dependencies
@@ -137,6 +144,119 @@ Structured JSON data that feeds into the report:
 The system generates:
 - **PDF file**: Final styled document
 - **HTML file** (optional): Intermediate HTML for debugging
+
+## Data Structure Patterns
+
+### Structured Metrics Pattern
+
+For reports with key performance indicators, use a structured format with metadata:
+
+```json
+{
+  "meta": {
+    "title": "Analytical Report",
+    "period": "October 2024 - September 2025",
+    "generated_date": "2025-01-15",
+    "efficiency_rating": 80,
+    "rating_max": 100
+  },
+  "key_metrics": {
+    "revenue": {
+      "label": "Total Revenue",
+      "value": 259353,
+      "change_mom": 3,      // Month-over-month change %
+      "change_yoy": 160,    // Year-over-year change %
+      "currency": "₽"
+    },
+    "active_users": {
+      "label": "Active Users",
+      "value": 607,
+      "change_mom": 3,
+      "change_yoy": 164,
+      "unit": "users"
+    }
+  },
+  "monthly_data": [
+    {"month": "Jan", "value": 45000},
+    {"month": "Feb", "value": 52000}
+  ],
+  "analysis_sections": [
+    {
+      "title": "Growth Analysis",
+      "summary": "Brief overview...",
+      "details": "Detailed analysis...",
+      "monthly_data": [...]
+    }
+  ],
+  "recommendations": [
+    {"title": "Action Item 1", "content": "Description..."}
+  ]
+}
+```
+
+**Benefits:**
+- Easy to generate programmatically
+- Consistent structure across reports
+- Self-documenting with labels
+- Supports change indicators (MoM, YoY)
+
+## Input Validation & Error Handling
+
+The system includes robust validation for both configuration and data:
+
+### Configuration Validation
+
+**Validates at load time:**
+- Required fields (name, json_path, style, template, chart_type)
+- Data types (font must be dict, dimensions must be numeric)
+- Positive values (width/height > 0)
+- Style references (blocks reference existing styles)
+
+**Example Error:**
+```
+ValueError: Block at index 0 in page 'cover' is missing required fields: style, template
+```
+
+### Data Validation
+
+**Validates during processing:**
+- Chart source data must be list or dict
+- Chart values must be numeric (auto-converts strings when possible)
+- Required chart fields (labels_field, values_field) must exist
+- No None values passed to matplotlib
+
+**Example Error:**
+```
+ValueError: Chart data item at index 2 is missing required field 'revenue'
+```
+
+### JSONPath Syntax Validation
+
+**Catches malformed paths:**
+- Unpaired brackets: `items[0` → Error
+- Empty indices: `items[]` → Error
+- Non-integer indices: `items[abc]` → Error
+
+**Gracefully handles missing data:**
+- Missing keys → Returns None (block skipped)
+- Null values → Returns None (block skipped)
+- Type mismatches → Returns None (block skipped)
+- Out of range → Returns None (block skipped)
+
+**Example:**
+```python
+# Syntax error: Raises ValueError
+extract_data({}, 'items[abc]')
+# → "index 'abc' is not a valid integer"
+
+# Missing data: Returns None, block skipped
+extract_data({'items': []}, 'items[0].name')
+# → None (page renders successfully)
+
+# Null in path: Returns None, block skipped
+extract_data({'items': [None]}, 'items[0].name')
+# → None (graceful degradation)
+```
 
 ## Configuration Reference
 
@@ -382,9 +502,15 @@ print(html)
 ## Requirements
 
 - Python 3.7+
-- WeasyPrint 60.1
+- WeasyPrint >= 61.0
 - Jinja2 3.1.2
 - Pillow 10.1.0
+- Matplotlib 3.8.2
+
+All dependencies can be installed via:
+```bash
+pip install -r requirements.txt
+```
 
 ## License
 
