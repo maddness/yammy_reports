@@ -360,7 +360,7 @@
         }
       ],
       "custom_css": ".churn-chart { margin-bottom: 30px; }",
-      "custom_html": "<div style='margin-top: 80px; padding-bottom: 80px;'><p style='font-size: 18px; color: #1a1a1a; line-height: 1.8; margin: 0 0 20px 0;'>{{ data.churn_analysis.summary }}</p><p style='font-size: 18px; color: #1a1a1a; line-height: 1.8; margin: 0;'>{{ data.churn_analysis.details }}</p></div><div style='position: fixed; bottom: 20px; left: 50px; font-size: 10px; color: #9ca3af;'>Аналитический отчет таксопарка за сентябрь 2024 – август 2025</div><div style='position: fixed; bottom: 20px; right: 50px; font-size: 10px; color: #9ca3af;'>3</div>"
+      "custom_html": "<div style='margin-top: 80px; padding-bottom: 80px;'><p style='font-size: 18px; color: #1a1a1a; line-height: 1.8; margin: 0 0 20px 0;'>{{ data.churn_analysis.summary }}</p><p style='font-size: 18px; color: #1a1a1a; line-height: 1.8; margin: 0;'>{{ data.churn_analysis.details }}</p></div><div style='position: absolute; bottom: 20px; left: 50px; font-size: 10px; color: #9ca3af;'>Аналитический отчет таксопарка за сентябрь 2024 – август 2025</div><div style='position: absolute; bottom: 20px; right: 50px; font-size: 10px; color: #9ca3af;'>3</div>"
     },
     {
       "name": "inflow_analysis",
@@ -411,7 +411,7 @@
         }
       ],
       "custom_css": ".inflow-chart { margin-bottom: 30px; }",
-      "custom_html": "<div style='margin-top: 80px; padding-bottom: 80px;'><p style='font-size: 18px; color: #1a1a1a; line-height: 1.8; margin: 0 0 20px 0;'>{{ data.inflow_analysis.summary }}</p><p style='font-size: 18px; color: #1a1a1a; line-height: 1.8; margin: 0;'>{{ data.inflow_analysis.details }}</p></div><div style='position: fixed; bottom: 20px; left: 50px; font-size: 10px; color: #9ca3af;'>Аналитический отчет таксопарка за сентябрь 2024 – август 2025</div><div style='position: fixed; bottom: 20px; right: 50px; font-size: 10px; color: #9ca3af;'>4</div>"
+      "custom_html": "<div style='margin-top: 80px; padding-bottom: 80px;'><p style='font-size: 18px; color: #1a1a1a; line-height: 1.8; margin: 0 0 20px 0;'>{{ data.inflow_analysis.summary }}</p><p style='font-size: 18px; color: #1a1a1a; line-height: 1.8; margin: 0;'>{{ data.inflow_analysis.details }}</p></div><div style='position: absolute; bottom: 20px; left: 50px; font-size: 10px; color: #9ca3af;'>Аналитический отчет таксопарка за сентябрь 2024 – август 2025</div><div style='position: absolute; bottom: 20px; right: 50px; font-size: 10px; color: #9ca3af;'>4</div>"
     },
     {
       "name": "positive_and_recommendations",
