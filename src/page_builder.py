@@ -290,9 +290,9 @@ class PageBuilder:
         classes = []
         for style_name, style in self.config.text_styles.items():
             css_props = style.to_css()
-            css_str = self._dict_to_inline_css(css_props)
-            newline_indent = ';\n                    '
-            css_formatted = css_str.replace(';', newline_indent)
+            # Format CSS properties with proper indentation
+            css_lines = [f"{key}: {value}" for key, value in css_props.items()]
+            css_formatted = ';\n                    '.join(css_lines)
             classes.append(f"""
                 .style-{style_name} {{
                     {css_formatted}

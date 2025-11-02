@@ -37,6 +37,17 @@
       "text_align": "center",
       "margin_bottom": 30
     },
+    "subtitle_light": {
+      "font": {
+        "family": "Arial",
+        "size": 14,
+        "weight": "normal",
+        "color": "#ecf0f1"
+      },
+      "line_height": 1.4,
+      "text_align": "center",
+      "margin_bottom": 30
+    },
     "section_heading": {
       "font": {
         "family": "Arial",
@@ -84,8 +95,8 @@
         },
         {
           "json_path": "report.generated_date",
-          "style": "subtitle",
-          "template": "<p style='{{ style_css }}; color: #ecf0f1;'>Generated: {{ data }}</p>"
+          "style": "subtitle_light",
+          "template": "<p style='{{ style_css }}'>Generated: {{ data }}</p>"
         }
       ],
       "charts": []

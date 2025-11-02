@@ -82,6 +82,7 @@
         "bottom": 40,
         "left": 40
       },
+      "charts": [],
       "blocks": [
         {
           "json_path": "company.name",
