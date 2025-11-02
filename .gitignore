@@ -30,6 +30,7 @@ output/*.html
 !output/sales.pdf
 !output/analytics.pdf
 !output/taxi_park_ru.pdf
+!output/taxi_park_analytics.pdf
 
 # Logs
 *.log

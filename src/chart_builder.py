@@ -258,43 +258,160 @@ def extract_chart_data(source_data: Any, config: Dict[str, Any]) -> Dict[str, An
 
     Returns:
         Formatted chart data
+
+    Raises:
+        ValueError: If source_data type is invalid or required fields are missing/invalid
     """
     chart_data = {}
 
+    # Validate source_data type
+    if source_data is None:
+        raise ValueError("Chart source data cannot be None")
+
+    if not isinstance(source_data, (list, dict)):
+        raise ValueError(
+            f"Chart source data must be a list or dict, got {type(source_data).__name__}"
+        )
+
+    # Validate that list items are dicts if source_data is a list
+    if isinstance(source_data, list):
+        if not source_data:
+            raise ValueError("Chart source data list is empty")
+
+        for idx, item in enumerate(source_data):
+            if not isinstance(item, dict):
+                raise ValueError(
+                    f"Chart source data list item at index {idx} must be a dict, got {type(item).__name__}"
+                )
+
     # Extract labels
-    if 'labels_field' in config:
+    if 'labels_field' in config and config['labels_field']:
         if isinstance(source_data, list):
-            chart_data['labels'] = [item.get(config['labels_field']) for item in source_data]
+            labels = []
+            for idx, item in enumerate(source_data):
+                label = item.get(config['labels_field'])
+                if label is None:
+                    raise ValueError(
+                        f"Chart data item at index {idx} is missing required field '{config['labels_field']}'"
+                    )
+                labels.append(label)
+            chart_data['labels'] = labels
         else:
             chart_data['labels'] = list(source_data.keys())
     elif 'labels' in config:
         chart_data['labels'] = config['labels']
 
     # Extract values
-    if 'values_field' in config:
+    if 'values_field' in config and config['values_field']:
         if isinstance(source_data, list):
-            chart_data['values'] = [item.get(config['values_field']) for item in source_data]
+            values = []
+            for idx, item in enumerate(source_data):
+                value = item.get(config['values_field'])
+                if value is None:
+                    raise ValueError(
+                        f"Chart data item at index {idx} is missing required field '{config['values_field']}'"
+                    )
+                # Validate numeric type
+                if not isinstance(value, (int, float)):
+                    try:
+                        value = float(value)
+                    except (ValueError, TypeError):
+                        raise ValueError(
+                            f"Chart data item at index {idx} has non-numeric value for field '{config['values_field']}': {value} (type: {type(value).__name__})"
+                        )
+                values.append(value)
+            chart_data['values'] = values
         else:
-            chart_data['values'] = list(source_data.values())
+            # Extract values from dict
+            values = []
+            for key, value in source_data.items():
+                if not isinstance(value, (int, float)):
+                    try:
+                        value = float(value)
+                    except (ValueError, TypeError):
+                        raise ValueError(
+                            f"Chart data key '{key}' has non-numeric value: {value} (type: {type(value).__name__})"
+                        )
+                values.append(value)
+            chart_data['values'] = values
     elif 'values' in config:
         chart_data['values'] = config['values']
 
     # Handle series for multi-line charts
     if 'series' in config and config['series'] is not None:
+        if not isinstance(config['series'], list):
+            raise ValueError(
+                f"Chart series configuration must be a list, got {type(config['series']).__name__}"
+            )
+
+        if not config['series']:
+            raise ValueError("Chart series configuration list is empty")
+
         chart_data['series'] = []
-        for series_config in config['series']:
+        for series_idx, series_config in enumerate(config['series']):
             series_data = {
-                'name': series_config.get('name', 'Series'),
+                'name': series_config.get('name', f'Series {series_idx + 1}'),
                 'values': []
             }
             if 'values_field' in series_config and isinstance(source_data, list):
-                series_data['values'] = [item.get(series_config['values_field']) for item in source_data]
+                values = []
+                for idx, item in enumerate(source_data):
+                    value = item.get(series_config['values_field'])
+                    if value is None:
+                        raise ValueError(
+                            f"Chart data item at index {idx} is missing required field '{series_config['values_field']}' for series '{series_data['name']}'"
+                        )
+                    # Validate numeric type
+                    if not isinstance(value, (int, float)):
+                        try:
+                            value = float(value)
+                        except (ValueError, TypeError):
+                            raise ValueError(
+                                f"Chart data item at index {idx} has non-numeric value for field '{series_config['values_field']}' in series '{series_data['name']}': {value}"
+                            )
+                    values.append(value)
+                series_data['values'] = values
             chart_data['series'].append(series_data)
 
     # Handle scatter plot
-    if 'x_field' in config and 'y_field' in config:
+    if config.get('x_field') and config.get('y_field'):
         if isinstance(source_data, list):
-            chart_data['x_values'] = [item.get(config['x_field']) for item in source_data]
-            chart_data['y_values'] = [item.get(config['y_field']) for item in source_data]
+            x_values = []
+            y_values = []
+            for idx, item in enumerate(source_data):
+                x_val = item.get(config['x_field'])
+                y_val = item.get(config['y_field'])
+
+                if x_val is None:
+                    raise ValueError(
+                        f"Chart data item at index {idx} is missing required field '{config['x_field']}' for scatter plot"
+                    )
+                if y_val is None:
+                    raise ValueError(
+                        f"Chart data item at index {idx} is missing required field '{config['y_field']}' for scatter plot"
+                    )
+
+                # Validate numeric types
+                if not isinstance(x_val, (int, float)):
+                    try:
+                        x_val = float(x_val)
+                    except (ValueError, TypeError):
+                        raise ValueError(
+                            f"Chart data item at index {idx} has non-numeric x value for field '{config['x_field']}': {x_val}"
+                        )
+
+                if not isinstance(y_val, (int, float)):
+                    try:
+                        y_val = float(y_val)
+                    except (ValueError, TypeError):
+                        raise ValueError(
+                            f"Chart data item at index {idx} has non-numeric y value for field '{config['y_field']}': {y_val}"
+                        )
+
+                x_values.append(x_val)
+                y_values.append(y_val)
+
+            chart_data['x_values'] = x_values
+            chart_data['y_values'] = y_values
 
     return chart_data
