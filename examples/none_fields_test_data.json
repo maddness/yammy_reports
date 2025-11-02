@@ -1,0 +1,66 @@
+{
+  "report": {
+    "title": "Chart None Fields Bug Fix Verification",
+    "description": "This report tests the fix for chart rendering when labels_field and values_field are None. Previously, this would cause TypeError when extract_chart_data tried to use None as a field name."
+  },
+  "test_cases": {
+    "dict_source": {
+      "description": "Test Case 1: Chart with dictionary source data and NO labels_field/values_field specified. The chart should automatically use dictionary keys as labels and values as data points.",
+      "metrics_dict": {
+        "Active Users": 15420,
+        "New Signups": 3250,
+        "Conversions": 892,
+        "Churned": 145,
+        "Revenue": 87500
+      }
+    },
+    "list_with_fields": {
+      "description": "Test Case 2: Chart with list source data and EXPLICIT field mappings. This is the standard case that always worked.",
+      "data": [
+        {
+          "category": "Electronics",
+          "count": 4250,
+          "revenue": 125000
+        },
+        {
+          "category": "Clothing",
+          "count": 6890,
+          "revenue": 89500
+        },
+        {
+          "category": "Home & Garden",
+          "count": 3120,
+          "revenue": 67800
+        },
+        {
+          "category": "Sports",
+          "count": 2340,
+          "revenue": 45600
+        },
+        {
+          "category": "Books",
+          "count": 5670,
+          "revenue": 34200
+        }
+      ]
+    },
+    "multi_dict": {
+      "description": "Test Case 3: Multiple charts using different dictionary sources without field mappings. This tests that the fix works consistently across multiple charts on the same page.",
+      "region_sales": {
+        "North America": 342000,
+        "Europe": 289000,
+        "Asia Pacific": 412000,
+        "Latin America": 156000,
+        "Middle East": 98000,
+        "Africa": 67000
+      },
+      "status_counts": {
+        "Completed": 2845,
+        "In Progress": 687,
+        "Pending": 234,
+        "Failed": 89,
+        "Cancelled": 156
+      }
+    }
+  }
+}

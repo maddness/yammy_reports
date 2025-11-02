@@ -1,0 +1,206 @@
+{
+  "name": "Chart None Fields Test Report",
+  "page_size": "A4",
+  "orientation": "portrait",
+  "fonts": {},
+  "text_styles": {
+    "report_title": {
+      "font": {
+        "family": "Arial",
+        "size": 28,
+        "weight": "bold",
+        "color": "#2c3e50"
+      },
+      "line_height": 1.2,
+      "text_align": "center",
+      "margin_bottom": 30
+    },
+    "test_description": {
+      "font": {
+        "family": "Arial",
+        "size": 12,
+        "weight": "normal",
+        "color": "#555555"
+      },
+      "line_height": 1.5,
+      "text_align": "left",
+      "margin_bottom": 20
+    },
+    "section_heading": {
+      "font": {
+        "family": "Arial",
+        "size": 18,
+        "weight": "bold",
+        "color": "#34495e"
+      },
+      "line_height": 1.4,
+      "margin_top": 30,
+      "margin_bottom": 15
+    }
+  },
+  "pages": [
+    {
+      "name": "title_page",
+      "background": {
+        "color": "#f8f9fa"
+      },
+      "padding": {
+        "top": 100,
+        "right": 40,
+        "bottom": 40,
+        "left": 40
+      },
+      "blocks": [
+        {
+          "json_path": "report.title",
+          "style": "report_title",
+          "template": "<h1 style='{{ style_css }}'>{{ data }}</h1>"
+        },
+        {
+          "json_path": "report.description",
+          "style": "test_description",
+          "template": "<p style='{{ style_css }}'>{{ data }}</p>"
+        }
+      ],
+      "charts": []
+    },
+    {
+      "name": "test_dict_source",
+      "background": {
+        "color": "#ffffff"
+      },
+      "padding": {
+        "top": 40,
+        "right": 40,
+        "bottom": 40,
+        "left": 40
+      },
+      "blocks": [
+        {
+          "json_path": "report.title",
+          "style": "section_heading",
+          "template": "<h2 style='{{ style_css }}'>Test 1: Dictionary Source (No Field Mapping)</h2>"
+        },
+        {
+          "json_path": "test_cases.dict_source.description",
+          "style": "test_description",
+          "template": "<p style='{{ style_css }}'>{{ data }}</p>"
+        }
+      ],
+      "charts": [
+        {
+          "json_path": "test_cases.dict_source.metrics_dict",
+          "chart_type": "bar",
+          "title": "Aggregated Metrics (Dictionary Keys as Labels)",
+          "width": 10,
+          "height": 5,
+          "color_scheme": "professional",
+          "xlabel": "Metric Type",
+          "ylabel": "Value",
+          "show_values": true,
+          "container_class": "chart-container"
+        },
+        {
+          "json_path": "test_cases.dict_source.metrics_dict",
+          "chart_type": "pie",
+          "title": "Metrics Distribution (Dictionary)",
+          "width": 8,
+          "height": 6,
+          "color_scheme": "vibrant",
+          "container_class": "chart-container"
+        }
+      ],
+      "custom_css": ".chart-container { margin: 30px 0; text-align: center; }"
+    },
+    {
+      "name": "test_list_partial_fields",
+      "background": {
+        "color": "#ffffff"
+      },
+      "padding": {
+        "top": 40,
+        "right": 40,
+        "bottom": 40,
+        "left": 40
+      },
+      "blocks": [
+        {
+          "json_path": "report.title",
+          "style": "section_heading",
+          "template": "<h2 style='{{ style_css }}'>Test 2: List with Explicit Fields</h2>"
+        },
+        {
+          "json_path": "test_cases.list_with_fields.description",
+          "style": "test_description",
+          "template": "<p style='{{ style_css }}'>{{ data }}</p>"
+        }
+      ],
+      "charts": [
+        {
+          "json_path": "test_cases.list_with_fields.data",
+          "chart_type": "horizontal_bar",
+          "title": "Categories (List with Explicit Mapping)",
+          "width": 10,
+          "height": 6,
+          "color_scheme": "ocean",
+          "labels_field": "category",
+          "values_field": "count",
+          "xlabel": "Count",
+          "ylabel": "Category",
+          "show_values": true,
+          "container_class": "chart-container"
+        }
+      ],
+      "custom_css": ".chart-container { margin: 30px 0; text-align: center; }"
+    },
+    {
+      "name": "test_mixed_scenarios",
+      "background": {
+        "color": "#ffffff"
+      },
+      "padding": {
+        "top": 40,
+        "right": 40,
+        "bottom": 40,
+        "left": 40
+      },
+      "blocks": [
+        {
+          "json_path": "report.title",
+          "style": "section_heading",
+          "template": "<h2 style='{{ style_css }}'>Test 3: Multiple Dictionary Sources</h2>"
+        },
+        {
+          "json_path": "test_cases.multi_dict.description",
+          "style": "test_description",
+          "template": "<p style='{{ style_css }}'>{{ data }}</p>"
+        }
+      ],
+      "charts": [
+        {
+          "json_path": "test_cases.multi_dict.region_sales",
+          "chart_type": "bar",
+          "title": "Sales by Region (Dict Source)",
+          "width": 10,
+          "height": 5,
+          "color_scheme": "earth",
+          "xlabel": "Region",
+          "ylabel": "Sales ($)",
+          "show_values": true,
+          "container_class": "chart-container"
+        },
+        {
+          "json_path": "test_cases.multi_dict.status_counts",
+          "chart_type": "pie",
+          "title": "Status Distribution (Dict Source)",
+          "width": 8,
+          "height": 6,
+          "color_scheme": "pastel",
+          "container_class": "chart-container"
+        }
+      ],
+      "custom_css": ".chart-container { margin: 30px 0; text-align: center; }"
+    }
+  ],
+  "global_css": "body { font-family: Arial, sans-serif; } .chart-container { border: 1px solid #e0e0e0; padding: 20px; border-radius: 8px; background: #fafafa; }"
+}
