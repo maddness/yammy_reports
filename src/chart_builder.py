@@ -262,21 +262,25 @@ def extract_chart_data(source_data: Any, config: Dict[str, Any]) -> Dict[str, An
     chart_data = {}
 
     # Extract labels
-    if 'labels_field' in config and config['labels_field'] is not None:
-        if isinstance(source_data, list):
-            chart_data['labels'] = [item.get(config['labels_field']) for item in source_data]
-        else:
-            chart_data['labels'] = list(source_data.keys())
+    if isinstance(source_data, dict):
+        # For dict sources, always use keys as labels
+        chart_data['labels'] = list(source_data.keys())
+    elif isinstance(source_data, list) and 'labels_field' in config and config['labels_field'] is not None:
+        # For list sources, extract field from each item if field mapping provided
+        chart_data['labels'] = [item.get(config['labels_field']) for item in source_data]
     elif 'labels' in config:
+        # Static labels provided in config
         chart_data['labels'] = config['labels']
 
     # Extract values
-    if 'values_field' in config and config['values_field'] is not None:
-        if isinstance(source_data, list):
-            chart_data['values'] = [item.get(config['values_field']) for item in source_data]
-        else:
-            chart_data['values'] = list(source_data.values())
+    if isinstance(source_data, dict):
+        # For dict sources, always use values
+        chart_data['values'] = list(source_data.values())
+    elif isinstance(source_data, list) and 'values_field' in config and config['values_field'] is not None:
+        # For list sources, extract field from each item if field mapping provided
+        chart_data['values'] = [item.get(config['values_field']) for item in source_data]
     elif 'values' in config:
+        # Static values provided in config
         chart_data['values'] = config['values']
 
     # Handle series for multi-line charts
