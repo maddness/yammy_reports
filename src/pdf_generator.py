@@ -103,26 +103,36 @@ class PDFGenerator:
 
         Raises:
             ValueError: If data is invalid
+            IOError: If file cannot be read
         """
         if isinstance(data, dict):
             return data
 
         if isinstance(data, (str, Path)):
             # Try as file path first
-            try:
-                path = Path(data)
-                if path.exists() and path.is_file():
+            path = Path(data)
+            if path.exists() and path.is_file():
+                try:
                     with open(path, 'r', encoding='utf-8') as f:
                         return json.load(f)
-            except (IOError, json.JSONDecodeError):
-                pass
+                except json.JSONDecodeError as e:
+                    raise ValueError(f"Invalid JSON in file '{path}': {e}")
+                except IOError as e:
+                    raise IOError(f"Cannot read file '{path}': {e}")
 
-            # Try as JSON string
+            # Try as JSON string (only for str type, not Path)
             if isinstance(data, str):
                 try:
                     return json.loads(data)
                 except json.JSONDecodeError as e:
-                    raise ValueError(f"Invalid JSON data: {e}")
+                    raise ValueError(f"Invalid JSON string: {e}")
+
+            # If it's a Path object but file doesn't exist
+            if isinstance(data, Path):
+                raise ValueError(f"File not found: {path}")
+
+            # If it's a string but not valid JSON and not a file
+            raise ValueError(f"String is neither a valid file path nor valid JSON: {data}")
 
         raise ValueError(f"Unsupported data type: {type(data)}")
 
@@ -136,16 +146,28 @@ def load_config_from_dict(config_dict: Dict[str, Any]) -> ReportConfig:
 
     Returns:
         ReportConfig instance
+
+    Raises:
+        ValueError: If required fields are missing or invalid types
     """
     from src.config_schema import (
         ReportConfig, PageConfig, BlockMapping, ChartMapping,
         TextStyle, FontConfig, BackgroundConfig, PaddingConfig
     )
 
+    # Validate required top-level field
+    if 'name' not in config_dict:
+        raise ValueError("Configuration must include 'name' field")
+
     # Parse text styles
     text_styles = {}
     for style_name, style_data in config_dict.get('text_styles', {}).items():
         font_data = style_data.get('font', {})
+
+        # Validate font_data is a dict if present
+        if font_data and not isinstance(font_data, dict):
+            raise ValueError(f"Font configuration for style '{style_name}' must be a dictionary, got {type(font_data).__name__}")
+
         font = FontConfig(**font_data) if font_data else FontConfig()
 
         text_styles[style_name] = TextStyle(
@@ -159,7 +181,11 @@ def load_config_from_dict(config_dict: Dict[str, Any]) -> ReportConfig:
 
     # Parse pages
     pages = []
-    for page_data in config_dict.get('pages', []):
+    for page_idx, page_data in enumerate(config_dict.get('pages', [])):
+        # Validate required page field
+        if 'name' not in page_data:
+            raise ValueError(f"Page at index {page_idx} is missing required 'name' field")
+
         # Parse background
         bg_data = page_data.get('background', {})
         background = BackgroundConfig(**bg_data) if bg_data else BackgroundConfig()
@@ -170,7 +196,18 @@ def load_config_from_dict(config_dict: Dict[str, Any]) -> ReportConfig:
 
         # Parse blocks
         blocks = []
-        for block_data in page_data.get('blocks', []):
+        for block_idx, block_data in enumerate(page_data.get('blocks', [])):
+            # Validate required block fields
+            missing_fields = []
+            for field in ['json_path', 'style', 'template']:
+                if field not in block_data:
+                    missing_fields.append(field)
+
+            if missing_fields:
+                raise ValueError(
+                    f"Block at index {block_idx} in page '{page_data['name']}' is missing required fields: {', '.join(missing_fields)}"
+                )
+
             blocks.append(BlockMapping(
                 json_path=block_data['json_path'],
                 style=block_data['style'],
@@ -180,13 +217,41 @@ def load_config_from_dict(config_dict: Dict[str, Any]) -> ReportConfig:
 
         # Parse charts
         charts = []
-        for chart_data in page_data.get('charts', []):
+        for chart_idx, chart_data in enumerate(page_data.get('charts', [])):
+            # Validate required chart fields
+            missing_fields = []
+            for field in ['json_path', 'chart_type']:
+                if field not in chart_data:
+                    missing_fields.append(field)
+
+            if missing_fields:
+                raise ValueError(
+                    f"Chart at index {chart_idx} in page '{page_data['name']}' is missing required fields: {', '.join(missing_fields)}"
+                )
+
+            # Validate and convert chart dimensions to int
+            width = chart_data.get('width', 8)
+            height = chart_data.get('height', 5)
+
+            try:
+                width = int(width)
+                height = int(height)
+            except (ValueError, TypeError):
+                raise ValueError(
+                    f"Chart at index {chart_idx} in page '{page_data['name']}' has invalid width/height: must be numeric"
+                )
+
+            if width <= 0 or height <= 0:
+                raise ValueError(
+                    f"Chart at index {chart_idx} in page '{page_data['name']}' has invalid dimensions: width and height must be positive"
+                )
+
             charts.append(ChartMapping(
                 json_path=chart_data['json_path'],
                 chart_type=chart_data['chart_type'],
                 title=chart_data.get('title'),
-                width=chart_data.get('width', 8),
-                height=chart_data.get('height', 5),
+                width=width,
+                height=height,
                 color_scheme=chart_data.get('color_scheme', 'professional'),
                 labels_field=chart_data.get('labels_field'),
                 values_field=chart_data.get('values_field'),

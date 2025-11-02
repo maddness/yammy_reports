@@ -34,26 +34,102 @@ class PageBuilder:
 
         Returns:
             Extracted data or None if path not found
+
+        Raises:
+            ValueError: If JSONPath syntax is malformed
         """
         try:
             current = data
             parts = json_path.split('.')
 
-            for part in parts:
+            for part_idx, part in enumerate(parts):
                 # Handle array indexing
-                if '[' in part and ']' in part:
-                    key = part[:part.index('[')]
-                    index = int(part[part.index('[') + 1:part.index(']')])
+                if '[' in part or ']' in part:
+                    # Validate bracket structure
+                    if not ('[' in part and ']' in part):
+                        raise ValueError(
+                            f"Malformed array index in JSONPath '{json_path}' at segment '{part}': "
+                            f"brackets must come in pairs"
+                        )
+
+                    # Validate bracket order
+                    open_idx = part.index('[')
+                    close_idx = part.index(']')
+
+                    if open_idx >= close_idx:
+                        raise ValueError(
+                            f"Malformed array index in JSONPath '{json_path}' at segment '{part}': "
+                            f"closing bracket must come after opening bracket"
+                        )
+
+                    # Check for multiple bracket pairs (not supported)
+                    if part.count('[') > 1 or part.count(']') > 1:
+                        raise ValueError(
+                            f"Malformed array index in JSONPath '{json_path}' at segment '{part}': "
+                            f"multiple bracket pairs in single segment not supported. "
+                            f"Use separate path segments (e.g., 'matrix[0].[1]' instead of 'matrix[0][1]')"
+                        )
+
+                    key = part[:open_idx]
+                    index_str = part[open_idx + 1:close_idx]
+
+                    # Validate index is not empty
+                    if not index_str.strip():
+                        raise ValueError(
+                            f"Malformed array index in JSONPath '{json_path}' at segment '{part}': "
+                            f"index cannot be empty"
+                        )
+
+                    # Validate index is an integer
+                    try:
+                        index = int(index_str)
+                    except ValueError:
+                        raise ValueError(
+                            f"Malformed array index in JSONPath '{json_path}' at segment '{part}': "
+                            f"index '{index_str}' is not a valid integer"
+                        )
+
                     if key:
-                        current = current[key][index]
+                        # First access dict key, then array index
+                        if not isinstance(current, dict):
+                            raise ValueError(
+                                f"JSONPath '{json_path}' at segment '{part}': "
+                                f"expected dict to access key '{key}', got {type(current).__name__}"
+                            )
+                        current = current[key]
+
+                        if not isinstance(current, list):
+                            raise ValueError(
+                                f"JSONPath '{json_path}' at segment '{part}': "
+                                f"expected list for index access, got {type(current).__name__}"
+                            )
+                        current = current[index]
                     else:
+                        # Direct array index (no key)
+                        if not isinstance(current, list):
+                            raise ValueError(
+                                f"JSONPath '{json_path}' at segment '{part}': "
+                                f"expected list for index access, got {type(current).__name__}"
+                            )
                         current = current[index]
                 else:
+                    # Regular key access
+                    if not isinstance(current, dict):
+                        raise ValueError(
+                            f"JSONPath '{json_path}' at segment '{part}': "
+                            f"expected dict to access key '{part}', got {type(current).__name__}"
+                        )
                     current = current[part]
 
             return current
-        except (KeyError, IndexError, TypeError, ValueError):
+        except (KeyError, IndexError) as e:
+            # Data path doesn't exist - return None (expected behavior for optional fields)
             return None
+        except (TypeError, ValueError) as e:
+            # Re-raise validation errors with context
+            if "JSONPath" in str(e):
+                raise  # Already has context
+            raise ValueError(f"Invalid JSONPath '{json_path}': {e}")
 
     def render_block(self, block: BlockMapping, data: Dict[str, Any]) -> str:
         """
