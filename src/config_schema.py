@@ -62,17 +62,33 @@ class BackgroundConfig:
     image: Optional[str] = None
     image_position: str = "center"
     image_size: str = "cover"  # cover, contain, auto
+    gradient_type: Optional[str] = None  # linear, radial
+    gradient_direction: str = "to bottom"  # for linear: to bottom, to right, 45deg, etc.
+    gradient_stops: Optional[List[str]] = None  # list of color stops
 
     def to_css(self) -> Dict[str, str]:
         """Convert background to CSS properties."""
         css = {}
-        if self.color:
+
+        # Handle gradient backgrounds
+        if self.gradient_type and self.gradient_stops:
+            if self.gradient_type == "linear":
+                stops = ", ".join(self.gradient_stops)
+                css["background"] = f"linear-gradient({self.gradient_direction}, {stops})"
+            elif self.gradient_type == "radial":
+                stops = ", ".join(self.gradient_stops)
+                css["background"] = f"radial-gradient(circle, {stops})"
+        # Handle solid color backgrounds (only if no gradient)
+        elif self.color:
             css["background-color"] = self.color
+
+        # Handle image backgrounds
         if self.image:
             css["background-image"] = f"url({self.image})"
             css["background-position"] = self.image_position
             css["background-size"] = self.image_size
             css["background-repeat"] = "no-repeat"
+
         return css
 
 

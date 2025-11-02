@@ -74,7 +74,9 @@
     {
       "name": "cover",
       "background": {
-        "color": "#3498db"
+        "gradient_type": "linear",
+        "gradient_direction": "to bottom",
+        "gradient_stops": ["#2ecc71", "#f39c12", "#e74c3c"]
       },
       "padding": {
         "top": 200,
