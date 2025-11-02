@@ -259,42 +259,101 @@ def extract_chart_data(source_data: Any, config: Dict[str, Any]) -> Dict[str, An
     Returns:
         Formatted chart data
     """
-    chart_data = {}
+    chart_data: Dict[str, Any] = {}
+    is_list = isinstance(source_data, list)
+    is_dict = isinstance(source_data, dict)
 
-    # Extract labels
-    if 'labels_field' in config:
-        if isinstance(source_data, list):
-            chart_data['labels'] = [item.get(config['labels_field']) for item in source_data]
-        else:
-            chart_data['labels'] = list(source_data.keys())
-    elif 'labels' in config:
+    labels_field = config.get('labels_field')
+    if labels_field not in (None, ''):
+        if not is_list:
+            raise ValueError("???????? 'labels_field' ????? ???? ??????????? ?????? ? ???????? ???????")
+
+        labels: List[Any] = []
+        for index, item in enumerate(source_data):
+            if not isinstance(item, dict):
+                raise ValueError("'labels_field' ??????? ?????? ????????")
+            if labels_field not in item or item[labels_field] is None:
+                raise ValueError(
+                    f"??????????? ???????? ???? '{labels_field}' ??? ???????? ? ???????? {index}"
+                )
+            labels.append(item[labels_field])
+
+        chart_data['labels'] = labels
+    elif 'labels' in config and config['labels'] is not None:
         chart_data['labels'] = config['labels']
+    elif is_dict:
+        chart_data['labels'] = list(source_data.keys())
 
-    # Extract values
-    if 'values_field' in config:
-        if isinstance(source_data, list):
-            chart_data['values'] = [item.get(config['values_field']) for item in source_data]
-        else:
-            chart_data['values'] = list(source_data.values())
-    elif 'values' in config:
+    values_field = config.get('values_field')
+    if values_field not in (None, ''):
+        if not is_list:
+            raise ValueError("???????? 'values_field' ????? ???? ??????????? ?????? ? ???????? ???????")
+
+        values: List[Any] = []
+        for index, item in enumerate(source_data):
+            if not isinstance(item, dict):
+                raise ValueError("'values_field' ??????? ?????? ????????")
+            if values_field not in item or item[values_field] is None:
+                raise ValueError(
+                    f"??????????? ???????? ???? '{values_field}' ??? ???????? ? ???????? {index}"
+                )
+            values.append(item[values_field])
+
+        chart_data['values'] = values
+    elif 'values' in config and config['values'] is not None:
         chart_data['values'] = config['values']
+    elif is_dict:
+        chart_data['values'] = list(source_data.values())
 
-    # Handle series for multi-line charts
-    if 'series' in config and config['series'] is not None:
-        chart_data['series'] = []
-        for series_config in config['series']:
-            series_data = {
+    series_configs = config.get('series')
+    if series_configs:
+        if not is_list:
+            raise ValueError("???????? 'series' ?????????????? ?????? ??? ???????? ??????")
+
+        series_list = []
+        for series_config in series_configs:
+            series_field = series_config.get('values_field')
+            if series_field in (None, ''):
+                raise ValueError("?????? ????? ?????? ????????? ???????? 'values_field'")
+
+            series_values: List[Any] = []
+            for index, item in enumerate(source_data):
+                if not isinstance(item, dict):
+                    raise ValueError("'series' ??????? ?????? ????????")
+                if series_field not in item or item[series_field] is None:
+                    raise ValueError(
+                        f"??????????? ???????? ???? '{series_field}' ??? ???????? ? ???????? {index}"
+                    )
+                series_values.append(item[series_field])
+
+            series_list.append({
                 'name': series_config.get('name', 'Series'),
-                'values': []
-            }
-            if 'values_field' in series_config and isinstance(source_data, list):
-                series_data['values'] = [item.get(series_config['values_field']) for item in source_data]
-            chart_data['series'].append(series_data)
+                'values': series_values
+            })
 
-    # Handle scatter plot
-    if 'x_field' in config and 'y_field' in config:
-        if isinstance(source_data, list):
-            chart_data['x_values'] = [item.get(config['x_field']) for item in source_data]
-            chart_data['y_values'] = [item.get(config['y_field']) for item in source_data]
+        chart_data['series'] = series_list
+
+    x_field = config.get('x_field')
+    y_field = config.get('y_field')
+    if x_field or y_field:
+        if x_field in (None, '') or y_field in (None, ''):
+            raise ValueError("??? ?????????? scatter-????????? ?????????? ??????? ??? ???? 'x_field' ? 'y_field'")
+        if not is_list:
+            raise ValueError("Scatter-????????? ??????? ?????? ???????? ? ????????????")
+
+        x_values: List[Any] = []
+        y_values: List[Any] = []
+        for index, item in enumerate(source_data):
+            if not isinstance(item, dict):
+                raise ValueError("Scatter-????????? ??????? ?????? ????????")
+            if x_field not in item or y_field not in item:
+                raise ValueError(
+                    f"??????????? ???????? ????? '{x_field}' ??? '{y_field}' ??? ???????? ? ???????? {index}"
+                )
+            x_values.append(item[x_field])
+            y_values.append(item[y_field])
+
+        chart_data['x_values'] = x_values
+        chart_data['y_values'] = y_values
 
     return chart_data

@@ -121,7 +121,14 @@ class PageBuilder:
         }
 
         # Extract and format chart data
-        formatted_data = extract_chart_data(chart_data_source, chart_config)
+        try:
+            formatted_data = extract_chart_data(chart_data_source, chart_config)
+        except ValueError as exc:
+            raise ValueError(
+                f"?????? ?????????? ?????? ??? ????????? '{chart.json_path}': {exc}"
+            ) from exc
+
+        self._validate_chart_data(chart, formatted_data)
 
         # Create chart builder
         chart_builder = ChartBuilder(color_scheme=chart.color_scheme)
@@ -303,3 +310,34 @@ class PageBuilder:
     def _dict_to_inline_css(self, css_dict: Dict[str, str]) -> str:
         """Convert CSS dictionary to inline style string."""
         return '; '.join(f"{key}: {value}" for key, value in css_dict.items())
+
+    def _validate_chart_data(self, chart: ChartMapping, data: Dict[str, Any]) -> None:
+        """Ensure chart data contains all required fields before rendering."""
+        chart_type = chart.chart_type
+        json_path = chart.json_path
+
+        def require(condition: bool, message: str) -> None:
+            if not condition:
+                raise ValueError(f"????????? '{json_path}' ({chart_type}) {message}")
+
+        if chart_type in {'bar', 'horizontal_bar', 'pie'}:
+            require('labels' in data and data['labels'], "??????? ???????? labels")
+            require('values' in data and data['values'], "??????? ???????? values")
+            require(len(data['labels']) == len(data['values']),
+                    "??????? ?????? ?????????? labels ? values")
+        elif chart_type in {'line', 'area'}:
+            require('labels' in data and data['labels'], "??????? ???????? labels")
+            if data.get('series'):
+                for series in data['series']:
+                    require(series.get('values'), "???????? ????? ??? ????????")
+                    require(len(series['values']) == len(data['labels']),
+                            "???????? ????? ? ??????????? ????????, ???????? ?? labels")
+            else:
+                require('values' in data and data['values'], "??????? ???????? values")
+                require(len(data['labels']) == len(data['values']),
+                        "??????? ?????? ?????????? labels ? values")
+        elif chart_type == 'scatter':
+            require('x_values' in data and data['x_values'], "??????? ???????? x_values")
+            require('y_values' in data and data['y_values'], "??????? ???????? y_values")
+            require(len(data['x_values']) == len(data['y_values']),
+                    "??????? ?????????? ????? x_values ? y_values")
