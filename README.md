@@ -38,24 +38,39 @@ Generate a sales report with HTML preview:
 python generate_report.py configs/sales_report.json examples/sales_data.json output/sales.pdf --save-html
 ```
 
+Generate a Russian taxi park analytics report (5 pages with gradient backgrounds):
+```bash
+python generate_report.py configs/taxi_park_ru_report.json examples/taxi_park_ru_data.json output/taxi_park_ru.pdf
+```
+
+Generate a comprehensive analytics dashboard:
+```bash
+python generate_report.py configs/analytics_report.json examples/analytics_data.json output/analytics.pdf
+```
+
 ## Project Structure
 
 ```
 yammy_reports/
 ├── src/
-│   ├── __init__.py          # Package initialization
-│   ├── config_schema.py     # Configuration data structures
-│   ├── page_builder.py      # HTML page builder with templates
-│   └── pdf_generator.py     # Main PDF generator class
+│   ├── __init__.py              # Package initialization
+│   ├── config_schema.py         # Configuration data structures
+│   ├── page_builder.py          # HTML page builder with templates
+│   ├── chart_builder.py         # Chart generation with matplotlib
+│   └── pdf_generator.py         # Main PDF generator class
 ├── configs/
-│   ├── invoice_report.json  # Invoice report configuration
-│   └── sales_report.json    # Sales report configuration
+│   ├── invoice_report.json      # Invoice report configuration
+│   ├── sales_report.json        # Sales report configuration
+│   ├── analytics_report.json    # Analytics dashboard configuration
+│   └── taxi_park_ru_report.json # Russian taxi park analytics (5 pages)
 ├── examples/
-│   ├── invoice_data.json    # Sample invoice data
-│   └── sales_data.json      # Sample sales data
-├── output/                   # Generated PDF files (created automatically)
-├── generate_report.py       # CLI tool for generating reports
-└── requirements.txt         # Python dependencies
+│   ├── invoice_data.json        # Sample invoice data
+│   ├── sales_data.json          # Sample sales data
+│   ├── analytics_data.json      # Analytics dashboard data
+│   └── taxi_park_ru_data.json   # Russian taxi park data
+├── output/                       # Generated PDF files (created automatically)
+├── generate_report.py           # CLI tool for generating reports
+└── requirements.txt             # Python dependencies
 ```
 
 ## Building Blocks
@@ -236,6 +251,41 @@ Map JSON data to page elements:
   "container_class": "customer-info"  // Optional CSS class
 }
 ```
+
+### Chart Mapping
+
+Generate charts from JSON data:
+
+```json
+{
+  "json_path": "monthly_revenue",      // Path to chart data
+  "chart_type": "bar",                 // bar, line, pie, area, horizontal_bar, scatter
+  "title": "Monthly Revenue ($)",      // Chart title
+  "width": 10,                         // Figure width in inches
+  "height": 5,                         // Figure height in inches
+  "color_scheme": "professional",      // professional, ocean, vibrant, earth
+  "labels_field": "month",             // Field name for X-axis labels
+  "values_field": "revenue",           // Field name for Y-axis values
+  "xlabel": "Month",                   // X-axis label
+  "ylabel": "Revenue ($)",             // Y-axis label
+  "show_values": true,                 // Show value labels on chart
+  "container_class": "chart-container" // Optional CSS class
+}
+```
+
+**Supported Chart Types:**
+- `bar` - Vertical bar chart
+- `horizontal_bar` - Horizontal bar chart
+- `line` - Line chart for trends
+- `area` - Area chart (filled line chart)
+- `pie` - Pie chart for proportions
+- `scatter` - Scatter plot for correlations
+
+**Color Schemes:**
+- `professional` - Blue-based professional colors
+- `ocean` - Ocean blue tones
+- `vibrant` - Bright, vibrant colors
+- `earth` - Earthy, natural tones
 
 ### JSON Path Examples
 
