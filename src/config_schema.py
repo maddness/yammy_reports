@@ -121,6 +121,10 @@ class ChartMapping:
     ylabel: str = ""  # Y-axis label
     show_values: bool = True  # Show value labels on bars
     container_class: Optional[str] = None  # Optional CSS class for container
+    show_legend: Optional[bool] = None  # Show legend for multi-series charts
+    hide_spines: bool = False  # Hide chart border spines
+    yaxis_right: bool = False  # Move Y-axis to right side
+    xticklabels_rotation: int = 45  # X-axis labels rotation angle
 
 
 @dataclass

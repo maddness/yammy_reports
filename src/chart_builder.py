@@ -167,10 +167,34 @@ class ChartBuilder:
         ax.set_xlabel(kwargs.get('xlabel', ''), fontsize=11)
         ax.set_ylabel(kwargs.get('ylabel', ''), fontsize=11)
         ax.set_xticks(x)
-        ax.set_xticklabels(labels, rotation=45, ha='right')
-        ax.grid(True, alpha=0.3, axis='y', linestyle='-', linewidth=0.5)
 
-        if len(series) > 1:
+        # X-axis labels rotation (default 45, can be overridden)
+        rotation = kwargs.get('xticklabels_rotation', 45)
+        ha = 'center' if rotation == 0 else 'right'
+        ax.set_xticklabels(labels, rotation=rotation, ha=ha)
+
+        ax.grid(True, alpha=0.3, linestyle='-', linewidth=0.5)
+
+        # Move Y-axis to right if requested
+        yaxis_right = kwargs.get('yaxis_right', False)
+        if yaxis_right:
+            ax.yaxis.tick_right()
+            ax.yaxis.set_label_position('right')
+
+        # Hide spines if requested
+        if kwargs.get('hide_spines', False):
+            ax.spines['top'].set_visible(False)
+            ax.spines['bottom'].set_visible(False)
+            ax.spines['left'].set_visible(False)
+            ax.spines['right'].set_visible(False)
+            # Hide tick marks
+            ax.tick_params(left=False, right=False, top=False, bottom=False)
+
+        # Show legend
+        show_legend = kwargs.get('show_legend')
+        if show_legend is None:
+            show_legend = len(series) > 1
+        if show_legend:
             ax.legend(loc='best', framealpha=0.9)
 
     def _create_pie_chart(self, ax, data: Dict[str, Any], **kwargs):

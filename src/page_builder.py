@@ -221,7 +221,14 @@ class PageBuilder:
             'xlabel': chart.xlabel,
             'ylabel': chart.ylabel,
             'show_values': chart.show_values,
+            'hide_spines': chart.hide_spines,
+            'yaxis_right': chart.yaxis_right,
+            'xticklabels_rotation': chart.xticklabels_rotation,
         }
+
+        # Add show_legend if specified
+        if chart.show_legend is not None:
+            chart_kwargs['show_legend'] = chart.show_legend
 
         image_data = chart_builder.create_chart(
             chart_type=chart.chart_type,

@@ -261,7 +261,11 @@ def load_config_from_dict(config_dict: Dict[str, Any]) -> ReportConfig:
                 xlabel=chart_data.get('xlabel', ''),
                 ylabel=chart_data.get('ylabel', ''),
                 show_values=chart_data.get('show_values', True),
-                container_class=chart_data.get('container_class')
+                container_class=chart_data.get('container_class'),
+                show_legend=chart_data.get('show_legend'),
+                hide_spines=chart_data.get('hide_spines', False),
+                yaxis_right=chart_data.get('yaxis_right', False),
+                xticklabels_rotation=chart_data.get('xticklabels_rotation', 45)
             ))
 
         pages.append(PageConfig(
