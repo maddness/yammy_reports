@@ -317,26 +317,16 @@
         "color": "#ffffff"
       },
       "padding": {
-        "top": 40,
+        "top": 50,
         "right": 50,
-        "bottom": 40,
+        "bottom": 50,
         "left": 50
       },
       "blocks": [
         {
           "json_path": "churn_analysis.title",
           "style": "section_title",
-          "template": "<h2 style='{{ style_css }}'>{{ data }}</h2>"
-        },
-        {
-          "json_path": "churn_analysis.summary",
-          "style": "body_text",
-          "template": "<p style='{{ style_css }}'>{{ data }}</p>"
-        },
-        {
-          "json_path": "churn_analysis.details",
-          "style": "body_text",
-          "template": "<p style='{{ style_css }}'>{{ data }}</p>"
+          "template": "<h2 style='font-size: 40px; font-weight: bold; color: #1a1a1a; margin: 0 0 30px 0; line-height: 1.2;'>{{ data }}</h2>"
         }
       ],
       "charts": [
@@ -345,28 +335,32 @@
           "chart_type": "multi_line",
           "title": "",
           "width": 10,
-          "height": 5,
+          "height": 4,
           "labels_field": "month",
           "series": [
             {
               "name": "Текущий год",
               "values_field": "current_year",
-              "color": "#27ae60"
+              "color": "#10b981"
             },
             {
               "name": "Прошлый год",
               "values_field": "previous_year",
-              "color": "#95a5a6"
+              "color": "#9ca3af"
             }
           ],
-          "xlabel": "Месяц",
-          "ylabel": "Отток (%)",
+          "xlabel": "",
+          "ylabel": "",
           "show_values": false,
-          "show_legend": true,
-          "container_class": "chart-container"
+          "show_legend": false,
+          "hide_spines": true,
+          "yaxis_right": true,
+          "xticklabels_rotation": 0,
+          "container_class": "churn-chart"
         }
       ],
-      "custom_css": ".chart-container { margin: 30px 0; }"
+      "custom_css": ".churn-chart { margin-bottom: 30px; }",
+      "custom_html": "<div style='margin-top: 80px; padding-bottom: 80px;'><p style='font-size: 18px; color: #1a1a1a; line-height: 1.8; margin: 0 0 20px 0;'>{{ data.churn_analysis.summary }}</p><p style='font-size: 18px; color: #1a1a1a; line-height: 1.8; margin: 0;'>{{ data.churn_analysis.details }}</p></div><div style='position: fixed; bottom: 20px; left: 50px; font-size: 10px; color: #9ca3af;'>Аналитический отчет таксопарка за сентябрь 2024 – август 2025</div><div style='position: fixed; bottom: 20px; right: 50px; font-size: 10px; color: #9ca3af;'>3</div>"
     },
     {
       "name": "inflow_analysis",
@@ -383,17 +377,7 @@
         {
           "json_path": "inflow_analysis.title",
           "style": "section_title",
-          "template": "<h2 style='{{ style_css }}'>{{ data }}</h2>"
-        },
-        {
-          "json_path": "inflow_analysis.summary",
-          "style": "body_text",
-          "template": "<p style='{{ style_css }}'>{{ data }}</p>"
-        },
-        {
-          "json_path": "inflow_analysis.details",
-          "style": "body_text",
-          "template": "<p style='{{ style_css }}'>{{ data }}</p>"
+          "template": "<h2 style='font-size: 40px; font-weight: bold; color: #1a1a1a; margin: 0 0 30px 0; line-height: 1.2;'>{{ data }}</h2>"
         }
       ],
       "charts": [
@@ -402,28 +386,32 @@
           "chart_type": "multi_line",
           "title": "",
           "width": 10,
-          "height": 5,
+          "height": 4,
           "labels_field": "month",
           "series": [
             {
               "name": "Текущий год",
               "values_field": "current_year",
-              "color": "#27ae60"
+              "color": "#10b981"
             },
             {
               "name": "Прошлый год",
               "values_field": "previous_year",
-              "color": "#95a5a6"
+              "color": "#9ca3af"
             }
           ],
-          "xlabel": "Месяц",
-          "ylabel": "Новые водители",
+          "xlabel": "",
+          "ylabel": "",
           "show_values": false,
-          "show_legend": true,
-          "container_class": "chart-container"
+          "show_legend": false,
+          "hide_spines": true,
+          "yaxis_right": true,
+          "xticklabels_rotation": 0,
+          "container_class": "inflow-chart"
         }
       ],
-      "custom_css": ".chart-container { margin: 30px 0; }"
+      "custom_css": ".inflow-chart { margin-bottom: 30px; }",
+      "custom_html": "<div style='margin-top: 80px; padding-bottom: 80px;'><p style='font-size: 18px; color: #1a1a1a; line-height: 1.8; margin: 0 0 20px 0;'>{{ data.inflow_analysis.summary }}</p><p style='font-size: 18px; color: #1a1a1a; line-height: 1.8; margin: 0;'>{{ data.inflow_analysis.details }}</p></div><div style='position: fixed; bottom: 20px; left: 50px; font-size: 10px; color: #9ca3af;'>Аналитический отчет таксопарка за сентябрь 2024 – август 2025</div><div style='position: fixed; bottom: 20px; right: 50px; font-size: 10px; color: #9ca3af;'>4</div>"
     },
     {
       "name": "positive_and_recommendations",

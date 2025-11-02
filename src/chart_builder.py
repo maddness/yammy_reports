@@ -171,7 +171,8 @@ class ChartBuilder:
         # X-axis labels rotation (default 45, can be overridden)
         rotation = kwargs.get('xticklabels_rotation', 45)
         ha = 'center' if rotation == 0 else 'right'
-        ax.set_xticklabels(labels, rotation=rotation, ha=ha)
+        ax.set_xticklabels(labels, rotation=rotation, ha=ha, fontsize=13)
+        ax.tick_params(axis='y', labelsize=13)
 
         ax.grid(True, alpha=0.3, linestyle='-', linewidth=0.5)
 

@@ -103,18 +103,18 @@
     "summary": "В последние месяцы наблюдается тревожная тенденция роста оттока водителей. После стабилизации на уровне 12-14% в середине года, отток резко вырос до 16% в августе 2025 года. Это на 0.6 процентных пункта выше, чем в июле, и на 2 процентных пункта выше среднего значения за год (14%). Рост оттока происходит несмотря на увеличение инвестиций в привлечение новых водителей и общий рост парка.",
     "details": "Анализ динамики показывает цикличность проблемы: периоды активного привлечения новых водителей (весна и лето 2025) сопровождаются последующим ростом оттока через 2-3 месяца. Это указывает на проблемы в процессе онбординга и адаптации новых водителей. При среднем времени жизни водителя в парке 6-7 месяцев, текущий уровень оттока 16% означает, что парк теряет каждого шестого водителя ежемесячно, что требует постоянных затрат на замену выбывших кадров.",
     "comparison_data": [
-      {"month": "Сен 2024", "current_year": 14.5, "previous_year": 12.3},
-      {"month": "Окт 2024", "current_year": 13.8, "previous_year": 11.9},
-      {"month": "Ноя 2024", "current_year": 14.2, "previous_year": 12.5},
-      {"month": "Дек 2024", "current_year": 13.5, "previous_year": 13.1},
-      {"month": "Янв 2025", "current_year": 12.9, "previous_year": 13.8},
-      {"month": "Фев 2025", "current_year": 12.5, "previous_year": 14.2},
-      {"month": "Мар 2025", "current_year": 13.1, "previous_year": 13.9},
-      {"month": "Апр 2025", "current_year": 13.8, "previous_year": 13.5},
-      {"month": "Май 2025", "current_year": 14.3, "previous_year": 13.2},
-      {"month": "Июн 2025", "current_year": 14.7, "previous_year": 12.8},
-      {"month": "Июл 2025", "current_year": 15.4, "previous_year": 12.5},
-      {"month": "Авг 2025", "current_year": 16.0, "previous_year": 12.2}
+      {"month": "Сен", "current_year": 14.5, "previous_year": 12.3},
+      {"month": "Окт", "current_year": 13.8, "previous_year": 11.9},
+      {"month": "Ноя", "current_year": 14.2, "previous_year": 12.5},
+      {"month": "Дек", "current_year": 13.5, "previous_year": 13.1},
+      {"month": "Янв", "current_year": 12.9, "previous_year": 13.8},
+      {"month": "Фев", "current_year": 12.5, "previous_year": 14.2},
+      {"month": "Мар", "current_year": 13.1, "previous_year": 13.9},
+      {"month": "Апр", "current_year": 13.8, "previous_year": 13.5},
+      {"month": "Май", "current_year": 14.3, "previous_year": 13.2},
+      {"month": "Июн", "current_year": 14.7, "previous_year": 12.8},
+      {"month": "Июл", "current_year": 15.4, "previous_year": 12.5},
+      {"month": "Авг", "current_year": 16.0, "previous_year": 12.2}
     ]
   },
   "inflow_analysis": {
@@ -122,18 +122,18 @@
     "summary": "Приток новых водителей демонстрирует признаки стагнации после периода активного роста в начале 2025 года. Если в марте-апреле парк привлекал по 45-50 новых водителей ежемесячно, то к августу 2025 этот показатель снизился до 28 человек. Это снижение на 44% от пикового значения в апреле (50 водителей) указывает на исчерпание традиционных каналов привлечения и снижение эффективности рекрутинговых кампаний.",
     "details": "Проблема усугубляется ростом стоимости привлечения: если в сентябре 2024 парк тратил в среднем 450₽ на привлечение одного водителя, то к августу 2025 эта цифра выросла до 1850₽ (+311%). При этом качество привлекаемых водителей снижается - средний срок работы новых водителей сократился с 8 месяцев до 5.5 месяцев. Сочетание высокой стоимости привлечения, снижающегося притока и ухудшения качества кадров создает риск кадрового кризиса в ближайшие 3-4 месяца.",
     "comparison_data": [
-      {"month": "Сен 2024", "current_year": 35, "previous_year": 28},
-      {"month": "Окт 2024", "current_year": 38, "previous_year": 31},
-      {"month": "Ноя 2024", "current_year": 42, "previous_year": 33},
-      {"month": "Дек 2024", "current_year": 40, "previous_year": 35},
-      {"month": "Янв 2025", "current_year": 43, "previous_year": 38},
-      {"month": "Фев 2025", "current_year": 47, "previous_year": 40},
-      {"month": "Мар 2025", "current_year": 50, "previous_year": 42},
-      {"month": "Апр 2025", "current_year": 48, "previous_year": 44},
-      {"month": "Май 2025", "current_year": 42, "previous_year": 41},
-      {"month": "Июн 2025", "current_year": 38, "previous_year": 39},
-      {"month": "Июл 2025", "current_year": 32, "previous_year": 37},
-      {"month": "Авг 2025", "current_year": 28, "previous_year": 35}
+      {"month": "Сен", "current_year": 35, "previous_year": 28},
+      {"month": "Окт", "current_year": 38, "previous_year": 31},
+      {"month": "Ноя", "current_year": 42, "previous_year": 33},
+      {"month": "Дек", "current_year": 40, "previous_year": 35},
+      {"month": "Янв", "current_year": 43, "previous_year": 38},
+      {"month": "Фев", "current_year": 47, "previous_year": 40},
+      {"month": "Мар", "current_year": 50, "previous_year": 42},
+      {"month": "Апр", "current_year": 48, "previous_year": 44},
+      {"month": "Май", "current_year": 42, "previous_year": 41},
+      {"month": "Июн", "current_year": 38, "previous_year": 39},
+      {"month": "Июл", "current_year": 32, "previous_year": 37},
+      {"month": "Авг", "current_year": 28, "previous_year": 35}
     ]
   },
   "positive_points": [
