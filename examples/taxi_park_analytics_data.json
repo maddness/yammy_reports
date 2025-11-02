@@ -34,18 +34,18 @@
     }
   ],
   "revenue_comparison": [
-    {"month": "Сен 2024", "current_year": 99628, "previous_year": 78500},
-    {"month": "Окт 2024", "current_year": 102827, "previous_year": 82300},
-    {"month": "Ноя 2024", "current_year": 109898, "previous_year": 91200},
-    {"month": "Дек 2024", "current_year": 114035, "previous_year": 95000},
-    {"month": "Янв 2025", "current_year": 120061, "previous_year": 98200},
-    {"month": "Фев 2025", "current_year": 132877, "previous_year": 102500},
-    {"month": "Мар 2025", "current_year": 142216, "previous_year": 109800},
-    {"month": "Апр 2025", "current_year": 145517, "previous_year": 115200},
-    {"month": "Май 2025", "current_year": 148812, "previous_year": 118500},
-    {"month": "Июн 2025", "current_year": 151990, "previous_year": 122000},
-    {"month": "Июл 2025", "current_year": 154652, "previous_year": 125500},
-    {"month": "Авг 2025", "current_year": 157222, "previous_year": 128800}
+    {"month": "Сент", "current_year": 320, "previous_year": 380},
+    {"month": "Окт", "current_year": 280, "previous_year": 450},
+    {"month": "Ноя", "current_year": 350, "previous_year": 480},
+    {"month": "Дек", "current_year": 360, "previous_year": 440},
+    {"month": "Янв", "current_year": 470, "previous_year": 270},
+    {"month": "Февр", "current_year": 420, "previous_year": 250},
+    {"month": "Мар", "current_year": 430, "previous_year": 380},
+    {"month": "Апр", "current_year": 520, "previous_year": 420},
+    {"month": "Май", "current_year": 540, "previous_year": 480},
+    {"month": "Июн", "current_year": 520, "previous_year": 440},
+    {"month": "Июл", "current_year": 380, "previous_year": 420},
+    {"month": "Авг", "current_year": 450, "previous_year": 400}
   ],
   "monthly_revenue": [
     {"month": "Окт 2024", "revenue": 99628},

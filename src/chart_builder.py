@@ -51,7 +51,7 @@ class ChartBuilder:
         Create a chart and return it as base64-encoded PNG.
 
         Args:
-            chart_type: Type of chart (bar, line, multi_line, pie, area, scatter, horizontal_bar)
+            chart_type: Type of chart (bar, line, pie, area, scatter, horizontal_bar)
             data: Chart data
             title: Chart title
             width: Figure width in inches
@@ -63,8 +63,8 @@ class ChartBuilder:
         """
         fig, ax = plt.subplots(figsize=(width, height))
 
-        # Set style
-        plt.style.use('seaborn-v0_8-darkgrid')
+        # Set style - use white background without grid
+        plt.style.use('seaborn-v0_8-white')
 
         # Create the appropriate chart
         if chart_type == 'bar':
@@ -168,7 +168,7 @@ class ChartBuilder:
         ax.set_ylabel(kwargs.get('ylabel', ''), fontsize=11)
         ax.set_xticks(x)
         ax.set_xticklabels(labels, rotation=45, ha='right')
-        ax.grid(True, alpha=0.3)
+        ax.grid(True, alpha=0.3, axis='y', linestyle='-', linewidth=0.5)
 
         if len(series) > 1:
             ax.legend(loc='best', framealpha=0.9)
@@ -226,7 +226,7 @@ class ChartBuilder:
         ax.set_ylabel(kwargs.get('ylabel', ''), fontsize=11)
         ax.set_xticks(x)
         ax.set_xticklabels(labels, rotation=45, ha='right')
-        ax.grid(True, alpha=0.3)
+        ax.grid(True, alpha=0.3, axis='y', linestyle='-', linewidth=0.5)
 
         if len(series) > 1:
             ax.legend(loc='best', framealpha=0.9)
