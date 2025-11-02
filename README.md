@@ -6,6 +6,8 @@ A flexible, configuration-based PDF generation system that transforms structured
 
 - **Configuration-Based**: Define report layouts through JSON configuration files
 - **Flexible Styling**: Customize fonts, colors, paddings, backgrounds per page
+- **Gradient Backgrounds**: Create beautiful linear or radial gradients for page backgrounds
+- **Chart Generation**: Built-in support for bar, line, pie, area, and scatter charts using matplotlib
 - **Template Engine**: Use Jinja2 templates to map JSON data to page elements
 - **Multi-Page Support**: Generate reports with multiple pages, each with unique styling
 - **Reusable Styles**: Define text styles once and reuse across multiple blocks
@@ -150,7 +152,15 @@ Define reusable text formatting:
 {
   "name": "page_name",
   "background": {
+    // Option 1: Solid color
     "color": "#ffffff",
+
+    // Option 2: Gradient background
+    "gradient_type": "linear",  // or "radial"
+    "gradient_direction": "to bottom",  // for linear: "to bottom", "to right", "45deg", etc.
+    "gradient_stops": ["#2ecc71", "#f39c12", "#e74c3c"],  // array of color stops
+
+    // Option 3: Background image
     "image": "path/to/image.png",  // optional
     "image_position": "center",
     "image_size": "cover"
@@ -162,7 +172,55 @@ Define reusable text formatting:
     "left": 40
   },
   "blocks": [],  // Block mappings (see below)
+  "charts": [],  // Chart mappings (see below)
   "custom_css": ".my-class { color: red; }"  // optional
+}
+```
+
+### Gradient Backgrounds
+
+Create beautiful gradient backgrounds for your pages:
+
+**Linear Gradient (vertical):**
+```json
+{
+  "background": {
+    "gradient_type": "linear",
+    "gradient_direction": "to bottom",
+    "gradient_stops": ["#2ecc71", "#f39c12", "#e74c3c"]
+  }
+}
+```
+
+**Linear Gradient (horizontal):**
+```json
+{
+  "background": {
+    "gradient_type": "linear",
+    "gradient_direction": "to right",
+    "gradient_stops": ["#3498db", "#9b59b6"]
+  }
+}
+```
+
+**Linear Gradient (diagonal):**
+```json
+{
+  "background": {
+    "gradient_type": "linear",
+    "gradient_direction": "45deg",
+    "gradient_stops": ["#1abc9c", "#3498db", "#9b59b6"]
+  }
+}
+```
+
+**Radial Gradient:**
+```json
+{
+  "background": {
+    "gradient_type": "radial",
+    "gradient_stops": ["#ffffff", "#3498db"]
+  }
 }
 ```
 
