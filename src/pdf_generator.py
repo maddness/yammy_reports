@@ -270,7 +270,8 @@ def load_config_from_dict(config_dict: Dict[str, Any]) -> ReportConfig:
             padding=padding,
             blocks=blocks,
             charts=charts,
-            custom_css=page_data.get('custom_css')
+            custom_css=page_data.get('custom_css'),
+            custom_html=page_data.get('custom_html')
         ))
 
     return ReportConfig(

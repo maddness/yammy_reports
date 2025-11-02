@@ -51,7 +51,7 @@ class ChartBuilder:
         Create a chart and return it as base64-encoded PNG.
 
         Args:
-            chart_type: Type of chart (bar, line, pie, area, scatter, horizontal_bar)
+            chart_type: Type of chart (bar, line, multi_line, pie, area, scatter, horizontal_bar)
             data: Chart data
             title: Chart title
             width: Figure width in inches
@@ -71,7 +71,7 @@ class ChartBuilder:
             self._create_bar_chart(ax, data, **kwargs)
         elif chart_type == 'horizontal_bar':
             self._create_horizontal_bar_chart(ax, data, **kwargs)
-        elif chart_type == 'line':
+        elif chart_type == 'line' or chart_type == 'multi_line':
             self._create_line_chart(ax, data, **kwargs)
         elif chart_type == 'pie':
             self._create_pie_chart(ax, data, **kwargs)

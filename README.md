@@ -349,12 +349,52 @@ Create beautiful gradient backgrounds for your pages:
 }
 ```
 
+**Multi-color Diagonal Gradient (135°):**
+```json
+{
+  "background": {
+    "gradient_type": "linear",
+    "gradient_direction": "135deg",
+    "gradient_stops": ["#ff6b9d", "#feca57", "#48dbfb", "#c44dff"]
+  }
+}
+```
+
 **Radial Gradient:**
 ```json
 {
   "background": {
     "gradient_type": "radial",
     "gradient_stops": ["#ffffff", "#3498db"]
+  }
+}
+```
+
+#### Full-page Gradient Background
+
+To ensure gradient covers the entire A4 page:
+
+1. **Set page height to A4 size:**
+```json
+{
+  "global_css": "@page { size: A4; margin: 0; } body { margin: 0; padding: 0; }"
+}
+```
+
+2. **Add custom CSS to the page:**
+```json
+{
+  "custom_css": ".page-name { min-height: 297mm !important; height: 297mm !important; position: relative; }"
+}
+```
+
+3. **Configure gradient background:**
+```json
+{
+  "background": {
+    "gradient_type": "linear",
+    "gradient_direction": "135deg",
+    "gradient_stops": ["#ff6b9d", "#feca57", "#48dbfb", "#c44dff"]
   }
 }
 ```

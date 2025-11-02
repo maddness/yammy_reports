@@ -255,8 +255,10 @@ class PageBuilder:
         # Build page styles
         page_styles = {
             'padding': page.padding.to_css(),
-            'min-height': '100vh',
+            'min-height': '297mm',  # A4 height in portrait
+            'height': '297mm',
             'box-sizing': 'border-box',
+            'position': 'relative',
         }
         page_styles.update(page.background.to_css())
 
@@ -275,6 +277,12 @@ class PageBuilder:
             if chart_html:
                 blocks_html.append(chart_html)
 
+        # Render custom HTML if provided
+        custom_html = ""
+        if page.custom_html:
+            template = self.jinja_env.from_string(page.custom_html)
+            custom_html = template.render(data=data)
+
         # Build page HTML
         custom_css = page.custom_css or ""
         page_html = f"""
@@ -283,6 +291,7 @@ class PageBuilder:
                 {custom_css}
             </style>
             {''.join(blocks_html)}
+            {custom_html}
         </div>
         """
 

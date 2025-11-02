@@ -75,9 +75,11 @@ class BackgroundConfig:
             if self.gradient_type == "linear":
                 stops = ", ".join(self.gradient_stops)
                 css["background"] = f"linear-gradient({self.gradient_direction}, {stops})"
+                css["background-size"] = "cover"
             elif self.gradient_type == "radial":
                 stops = ", ".join(self.gradient_stops)
                 css["background"] = f"radial-gradient(circle, {stops})"
+                css["background-size"] = "cover"
         # Handle solid color backgrounds (only if no gradient)
         elif self.color:
             css["background-color"] = self.color
@@ -105,7 +107,7 @@ class BlockMapping:
 class ChartMapping:
     """Mapping of JSON data to chart visualization."""
     json_path: str  # JSONPath expression to extract data
-    chart_type: str  # Type of chart: bar, line, pie, area, scatter, horizontal_bar
+    chart_type: str  # Type of chart: bar, line, multi_line, pie, area, scatter, horizontal_bar
     title: Optional[str] = None  # Chart title
     width: int = 8  # Figure width in inches
     height: int = 5  # Figure height in inches
@@ -130,6 +132,7 @@ class PageConfig:
     blocks: List[BlockMapping] = field(default_factory=list)
     charts: List[ChartMapping] = field(default_factory=list)
     custom_css: Optional[str] = None  # Additional custom CSS for this page
+    custom_html: Optional[str] = None  # Additional custom HTML for this page
 
 
 @dataclass

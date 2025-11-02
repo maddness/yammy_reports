@@ -165,6 +165,80 @@
       "line_height": 1.5,
       "text_align": "justify",
       "margin_bottom": 10
+    },
+    "cover_title": {
+      "font": {
+        "family": "Arial",
+        "size": 64,
+        "weight": "bold",
+        "color": "#ffffff"
+      },
+      "line_height": 1.2,
+      "text_align": "left",
+      "margin_bottom": 20
+    },
+    "cover_period": {
+      "font": {
+        "family": "Arial",
+        "size": 18,
+        "weight": "normal",
+        "color": "#ffffff"
+      },
+      "line_height": 1.4,
+      "text_align": "left",
+      "margin_bottom": 8
+    },
+    "cover_date": {
+      "font": {
+        "family": "Arial",
+        "size": 18,
+        "weight": "normal",
+        "color": "#ffffff"
+      },
+      "line_height": 1.4,
+      "text_align": "left"
+    },
+    "rating_title": {
+      "font": {
+        "family": "Arial",
+        "size": 24,
+        "weight": "bold",
+        "color": "#2c3e50"
+      },
+      "line_height": 1.3,
+      "text_align": "left",
+      "margin_bottom": 20
+    },
+    "metric_compact": {
+      "font": {
+        "family": "Arial",
+        "size": 10,
+        "weight": "normal",
+        "color": "#444444"
+      },
+      "line_height": 1.4
+    },
+    "warning_white": {
+      "font": {
+        "family": "Arial",
+        "size": 12,
+        "weight": "normal",
+        "color": "#ffffff"
+      },
+      "line_height": 1.6,
+      "text_align": "left",
+      "margin_bottom": 20
+    },
+    "warning_title_white": {
+      "font": {
+        "family": "Arial",
+        "size": 28,
+        "weight": "bold",
+        "color": "#ffffff"
+      },
+      "line_height": 1.2,
+      "text_align": "left",
+      "margin_bottom": 40
     }
   },
   "pages": [
@@ -172,125 +246,78 @@
       "name": "cover",
       "background": {
         "gradient_type": "linear",
-        "gradient_direction": "to bottom",
-        "gradient_stops": ["#ffffff", "#f5f7fa"]
+        "gradient_direction": "135deg",
+        "gradient_stops": ["#ff6b9d", "#feca57", "#48dbfb", "#c44dff"]
       },
       "padding": {
         "top": 80,
         "right": 50,
-        "bottom": 50,
+        "bottom": 100,
         "left": 50
       },
       "blocks": [
         {
           "json_path": "meta.title",
-          "style": "main_title",
+          "style": "cover_title",
           "template": "<h1 style='{{ style_css }}'>{{ data }}</h1>"
-        },
+        }
+      ],
+      "charts": [],
+      "custom_css": ".page-cover { min-height: 297mm !important; height: 297mm !important; background-size: cover !important; position: relative; }",
+      "custom_html": "<div style='position: absolute; bottom: 50px; left: 50px;'><p style='font-size: 18px; color: #ffffff; line-height: 1.4; margin-bottom: 8px;'>Период {{ data.meta.period }}</p><p style='font-size: 18px; color: #ffffff; line-height: 1.4;'>Дата формирования {{ data.meta.generated_date }}</p></div>"
+    },
+    {
+      "name": "rating_overview",
+      "background": {
+        "color": "#ffffff"
+      },
+      "padding": {
+        "top": 40,
+        "right": 50,
+        "bottom": 40,
+        "left": 50
+      },
+      "blocks": [
         {
-          "json_path": "meta.period",
-          "style": "period",
-          "template": "<p style='{{ style_css }}'><strong>Период:</strong> {{ data }}</p>"
-        },
-        {
-          "json_path": "meta.generated_date",
-          "style": "generated_date",
-          "template": "<p style='{{ style_css }}'>Дата формирования: {{ data }}</p>"
+          "json_path": "meta",
+          "style": "rating_title",
+          "template": "<h2 style='{{ style_css }}'>Рейтинг эффективности парка</h2>"
         },
         {
           "json_path": "meta",
           "style": "rating_big",
-          "template": "<div style='{{ style_css }}'>{{ data.efficiency_rating }}/{{ data.rating_max }}</div>"
-        },
-        {
-          "json_path": "meta",
-          "style": "rating_label",
-          "template": "<div style='{{ style_css }}'>Рейтинг эффективности таксопарка</div>"
-        }
-      ],
-      "charts": []
-    },
-    {
-      "name": "revenue_and_metrics",
-      "background": {
-        "color": "#ffffff"
-      },
-      "padding": {
-        "top": 40,
-        "right": 50,
-        "bottom": 40,
-        "left": 50
-      },
-      "blocks": [
-        {
-          "json_path": "meta.title",
-          "style": "section_title",
-          "template": "<h2 style='{{ style_css }}'>Доход парка после расходов</h2>"
+          "template": "<div style='{{ style_css }}; text-align: left; margin-top: 20px;'><span style='font-size: 64px;'>{{ data.efficiency_rating }}</span> <span style='font-size: 36px; color: #888;'>из {{ data.rating_max }}</span></div>"
         }
       ],
       "charts": [
         {
-          "json_path": "monthly_revenue",
-          "chart_type": "bar",
-          "title": "Доход парка по месяцам (₽)",
-          "width": 10,
-          "height": 5,
-          "color_scheme": "professional",
+          "json_path": "revenue_comparison",
+          "chart_type": "multi_line",
+          "title": "",
+          "width": 8,
+          "height": 4,
           "labels_field": "month",
-          "values_field": "revenue",
-          "xlabel": "Месяц",
+          "series": [
+            {
+              "name": "Текущий год",
+              "values_field": "current_year",
+              "color": "#27ae60"
+            },
+            {
+              "name": "Прошлый год",
+              "values_field": "previous_year",
+              "color": "#95a5a6"
+            }
+          ],
+          "xlabel": "",
           "ylabel": "Доход (₽)",
           "show_values": false,
+          "show_legend": true,
           "container_class": "chart-container"
         }
       ],
-      "custom_css": ".chart-container { margin: 20px 0 30px 0; }"
-    },
-    {
-      "name": "key_metrics",
-      "background": {
-        "color": "#ffffff"
-      },
-      "padding": {
-        "top": 40,
-        "right": 50,
-        "bottom": 40,
-        "left": 50
-      },
-      "blocks": [
-        {
-          "json_path": "meta.title",
-          "style": "section_title",
-          "template": "<h2 style='{{ style_css }}'>Ключевые показатели</h2>"
-        },
-        {
-          "json_path": "key_metrics.revenue",
-          "style": "body_text",
-          "template": "<div style='margin-bottom: 20px;'><div style='font-size: 11px; color: #666;'>{{ data.label }}</div><div style='font-size: 16px; font-weight: bold; color: #2c3e50;'>{{ \"{:,.0f}\".format(data.value) }} {{ data.currency }}</div><div style='font-size: 10px; color: #27ae60;'>(+{{ data.change_mom }}% к августу, +{{ data.change_yoy }}% год к году)</div></div>"
-        },
-        {
-          "json_path": "key_metrics.active_drivers",
-          "style": "body_text",
-          "template": "<div style='margin-bottom: 20px;'><div style='font-size: 11px; color: #666;'>{{ data.label }}</div><div style='font-size: 16px; font-weight: bold; color: #2c3e50;'>{{ data.value }} {{ data.unit }}</div><div style='font-size: 10px; color: #27ae60;'>(+{{ data.change_mom }}% к августу, +{{ data.change_yoy }}% год к году)</div></div>"
-        },
-        {
-          "json_path": "key_metrics.churn_rate",
-          "style": "body_text",
-          "template": "<div style='margin-bottom: 20px;'><div style='font-size: 11px; color: #666;'>{{ data.label }}</div><div style='font-size: 16px; font-weight: bold; color: #2c3e50;'>{{ data.value }}{{ data.unit }}</div><div style='font-size: 10px; color: #c0392b;'>({{ data.change_mom }} п.п. к августу, +{{ data.change_yoy }} п.п. год к году)</div></div>"
-        },
-        {
-          "json_path": "key_metrics.revenue_per_driver",
-          "style": "body_text",
-          "template": "<div style='margin-bottom: 20px;'><div style='font-size: 11px; color: #666;'>{{ data.label }}</div><div style='font-size: 16px; font-weight: bold; color: #2c3e50;'>{{ data.value }} {{ data.currency }}</div><div style='font-size: 10px; color: #7f8c8d;'>({{ data.change_mom }}% к августу, {{ data.change_yoy }}% год к году)</div></div>"
-        },
-        {
-          "json_path": "key_metrics.profitability",
-          "style": "body_text",
-          "template": "<div style='margin-bottom: 20px;'><div style='font-size: 11px; color: #666;'>{{ data.label }}</div><div style='font-size: 16px; font-weight: bold; color: #2c3e50;'>{{ data.value }}{{ data.unit }}</div><div style='font-size: 10px; color: #c0392b;'>(+{{ data.change_mom }} п.п. к августу, {{ data.change_yoy }} п.п. год к году)</div></div>"
-        }
-      ],
-      "charts": [],
-      "custom_css": ""
+      "custom_css": ".chart-container { margin: 20px 0 30px 0; float: right; width: 60%; }",
+      "custom_html": "<div style='position: absolute; right: 100px; top: 180px; font-size: 28px; font-weight: bold; color: #2c3e50;'>{{ data.total_revenue_formatted }}</div><div style='margin-top: 30px; clear: both;'>{% for metric in data.compact_metrics %}<div style='display: inline-block; width: 24%; margin-right: 1%; margin-bottom: 15px;'><div style='font-size: 10px; color: #666;'>{{ metric.label }}</div><div style='font-size: 14px; font-weight: bold; color: #2c3e50;'>{{ metric.value }}</div><div style='font-size: 9px; color: {{ metric.change_color }};'>{{ metric.change_text }}</div></div>{% endfor %}</div>"
     },
     {
       "name": "churn_analysis",
@@ -322,24 +349,35 @@
       ],
       "charts": [
         {
-          "json_path": "churn_analysis.monthly_data",
-          "chart_type": "line",
-          "title": "Отток водителей по месяцам (%)",
+          "json_path": "churn_analysis.comparison_data",
+          "chart_type": "multi_line",
+          "title": "",
           "width": 10,
           "height": 5,
-          "color_scheme": "vibrant",
           "labels_field": "month",
-          "values_field": "value",
+          "series": [
+            {
+              "name": "Текущий год",
+              "values_field": "current_year",
+              "color": "#27ae60"
+            },
+            {
+              "name": "Прошлый год",
+              "values_field": "previous_year",
+              "color": "#95a5a6"
+            }
+          ],
           "xlabel": "Месяц",
           "ylabel": "Отток (%)",
           "show_values": false,
+          "show_legend": true,
           "container_class": "chart-container"
         }
       ],
       "custom_css": ".chart-container { margin: 30px 0; }"
     },
     {
-      "name": "profitability_analysis",
+      "name": "inflow_analysis",
       "background": {
         "color": "#ffffff"
       },
@@ -351,34 +389,45 @@
       },
       "blocks": [
         {
-          "json_path": "profitability_analysis.title",
+          "json_path": "inflow_analysis.title",
           "style": "section_title",
           "template": "<h2 style='{{ style_css }}'>{{ data }}</h2>"
         },
         {
-          "json_path": "profitability_analysis.summary",
+          "json_path": "inflow_analysis.summary",
           "style": "body_text",
           "template": "<p style='{{ style_css }}'>{{ data }}</p>"
         },
         {
-          "json_path": "profitability_analysis.details",
+          "json_path": "inflow_analysis.details",
           "style": "body_text",
           "template": "<p style='{{ style_css }}'>{{ data }}</p>"
         }
       ],
       "charts": [
         {
-          "json_path": "profitability_analysis.monthly_data",
-          "chart_type": "area",
-          "title": "Доходность по Диспетчерской (%)",
+          "json_path": "inflow_analysis.comparison_data",
+          "chart_type": "multi_line",
+          "title": "",
           "width": 10,
           "height": 5,
-          "color_scheme": "ocean",
           "labels_field": "month",
-          "values_field": "value",
+          "series": [
+            {
+              "name": "Текущий год",
+              "values_field": "current_year",
+              "color": "#27ae60"
+            },
+            {
+              "name": "Прошлый год",
+              "values_field": "previous_year",
+              "color": "#95a5a6"
+            }
+          ],
           "xlabel": "Месяц",
-          "ylabel": "Доходность (%)",
+          "ylabel": "Новые водители",
           "show_values": false,
+          "show_legend": true,
           "container_class": "chart-container"
         }
       ],
@@ -395,95 +444,44 @@
         "bottom": 40,
         "left": 50
       },
-      "blocks": [
-        {
-          "json_path": "meta.title",
-          "style": "section_title",
-          "template": "<h2 style='{{ style_css }}'>Позитивные моменты и рекомендации</h2>"
-        },
-        {
-          "json_path": "meta.title",
-          "style": "subsection_title",
-          "template": "<h3 style='{{ style_css }}'>Позитивные моменты</h3>"
-        },
-        {
-          "json_path": "positive_points[0].title",
-          "style": "list_title",
-          "template": "<div style='{{ style_css }}'>{{ data }}</div>"
-        },
-        {
-          "json_path": "positive_points[0].content",
-          "style": "list_content",
-          "template": "<p style='{{ style_css }}'>{{ data }}</p>"
-        },
-        {
-          "json_path": "positive_points[1].title",
-          "style": "list_title",
-          "template": "<div style='{{ style_css }}'>{{ data }}</div>"
-        },
-        {
-          "json_path": "positive_points[1].content",
-          "style": "list_content",
-          "template": "<p style='{{ style_css }}'>{{ data }}</p>"
-        },
-        {
-          "json_path": "meta.title",
-          "style": "subsection_title",
-          "template": "<h3 style='{{ style_css }}'>Рекомендации</h3>"
-        },
-        {
-          "json_path": "recommendations[0].title",
-          "style": "list_title",
-          "template": "<div style='{{ style_css }}'>1. {{ data }}</div>"
-        },
-        {
-          "json_path": "recommendations[0].content",
-          "style": "list_content",
-          "template": "<p style='{{ style_css }}'>{{ data }}</p>"
-        },
-        {
-          "json_path": "recommendations[1].title",
-          "style": "list_title",
-          "template": "<div style='{{ style_css }}'>2. {{ data }}</div>"
-        },
-        {
-          "json_path": "recommendations[1].content",
-          "style": "list_content",
-          "template": "<p style='{{ style_css }}'>{{ data }}</p>"
-        }
-      ],
-      "charts": []
+      "blocks": [],
+      "charts": [],
+      "custom_css": ".section-container { border: 2px solid #3498db; border-radius: 8px; padding: 20px; margin-bottom: 20px; } .grid-container { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; } .grid-item { padding: 10px; }",
+      "custom_html": "<div class='section-container'><h3 style='color: #2c3e50; font-size: 18px; margin-bottom: 20px;'>Позитивные моменты</h3><div class='grid-container'>{% for point in data.positive_points %}<div class='grid-item'><div style='font-size: 13px; font-weight: bold; color: #34495e; margin-bottom: 8px;'>{{ point.title }}</div><div style='font-size: 11px; color: #444; line-height: 1.5;'>{{ point.content }}</div></div>{% endfor %}</div></div><div class='section-container'><h3 style='color: #2c3e50; font-size: 18px; margin-bottom: 20px;'>Рекомендации</h3><div class='grid-container'>{% for rec in data.recommendations %}<div class='grid-item'><div style='font-size: 13px; font-weight: bold; color: #34495e; margin-bottom: 8px;'>{{ loop.index }}. {{ rec.title }}</div><div style='font-size: 11px; color: #444; line-height: 1.5;'>{{ rec.content }}</div></div>{% endfor %}</div></div>"
     },
     {
       "name": "warnings",
       "background": {
-        "color": "#fef9e7"
+        "gradient_type": "linear",
+        "gradient_direction": "135deg",
+        "gradient_stops": ["#ff6b9d", "#feca57", "#48dbfb", "#c44dff"]
       },
       "padding": {
-        "top": 40,
+        "top": 100,
         "right": 50,
-        "bottom": 40,
+        "bottom": 50,
         "left": 50
       },
       "blocks": [
         {
           "json_path": "meta.title",
-          "style": "section_title",
+          "style": "warning_title_white",
           "template": "<h2 style='{{ style_css }}'>Предупреждение</h2>"
         },
         {
           "json_path": "warnings[0]",
-          "style": "warning",
-          "template": "<p style='{{ style_css }}; padding: 15px; background: #fff3cd; border-left: 4px solid #ffc107; margin-bottom: 15px;'>{{ data }}</p>"
+          "style": "warning_white",
+          "template": "<p style='{{ style_css }}'>{{ data }}</p>"
         },
         {
           "json_path": "warnings[1]",
-          "style": "warning",
-          "template": "<p style='{{ style_css }}; padding: 15px; background: #fff3cd; border-left: 4px solid #ffc107;'>{{ data }}</p>"
+          "style": "warning_white",
+          "template": "<p style='{{ style_css }}'>{{ data }}</p>"
         }
       ],
-      "charts": []
+      "charts": [],
+      "custom_html": "<div style='position: absolute; bottom: 50px; right: 50px; width: 80px; height: 80px; background: rgba(255,255,255,0.3); border-radius: 50%; display: flex; align-items: center; justify-content: center;'><span style='font-size: 48px; color: white; font-weight: bold;'>N</span></div>"
     }
   ],
-  "global_css": "body { font-family: Arial, sans-serif; } .chart-container { page-break-inside: avoid; }"
+  "global_css": "@page { size: A4; margin: 0; } body { font-family: Arial, sans-serif; margin: 0; padding: 0; } .chart-container { page-break-inside: avoid; } .page { page-break-after: always; }"
 }
