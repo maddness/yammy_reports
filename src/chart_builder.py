@@ -262,7 +262,7 @@ def extract_chart_data(source_data: Any, config: Dict[str, Any]) -> Dict[str, An
     chart_data = {}
 
     # Extract labels
-    if 'labels_field' in config:
+    if 'labels_field' in config and config['labels_field'] is not None:
         if isinstance(source_data, list):
             chart_data['labels'] = [item.get(config['labels_field']) for item in source_data]
         else:
@@ -271,7 +271,7 @@ def extract_chart_data(source_data: Any, config: Dict[str, Any]) -> Dict[str, An
         chart_data['labels'] = config['labels']
 
     # Extract values
-    if 'values_field' in config:
+    if 'values_field' in config and config['values_field'] is not None:
         if isinstance(source_data, list):
             chart_data['values'] = [item.get(config['values_field']) for item in source_data]
         else:
@@ -292,7 +292,8 @@ def extract_chart_data(source_data: Any, config: Dict[str, Any]) -> Dict[str, An
             chart_data['series'].append(series_data)
 
     # Handle scatter plot
-    if 'x_field' in config and 'y_field' in config:
+    if ('x_field' in config and config['x_field'] is not None and
+        'y_field' in config and config['y_field'] is not None):
         if isinstance(source_data, list):
             chart_data['x_values'] = [item.get(config['x_field']) for item in source_data]
             chart_data['y_values'] = [item.get(config['y_field']) for item in source_data]

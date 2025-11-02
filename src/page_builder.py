@@ -111,14 +111,18 @@ class PageBuilder:
         if chart_data_source is None:
             return ""
 
-        # Build chart configuration
-        chart_config = {
-            'labels_field': chart.labels_field,
-            'values_field': chart.values_field,
-            'x_field': chart.x_field,
-            'y_field': chart.y_field,
-            'series': chart.series,
-        }
+        # Build chart configuration (only include non-None fields)
+        chart_config = {}
+        if chart.labels_field is not None:
+            chart_config['labels_field'] = chart.labels_field
+        if chart.values_field is not None:
+            chart_config['values_field'] = chart.values_field
+        if chart.x_field is not None:
+            chart_config['x_field'] = chart.x_field
+        if chart.y_field is not None:
+            chart_config['y_field'] = chart.y_field
+        if chart.series is not None:
+            chart_config['series'] = chart.series
 
         # Extract and format chart data
         formatted_data = extract_chart_data(chart_data_source, chart_config)
