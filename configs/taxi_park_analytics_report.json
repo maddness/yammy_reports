@@ -295,7 +295,8 @@
             {
               "name": "Прошлый год",
               "values_field": "previous_year",
-              "color": "#9ca3af"
+              "color": "#9ca3af",
+              "optional": true
             }
           ],
           "xlabel": "",
@@ -346,7 +347,8 @@
             {
               "name": "Прошлый год",
               "values_field": "previous_year",
-              "color": "#9ca3af"
+              "color": "#9ca3af",
+              "optional": true
             }
           ],
           "xlabel": "",
@@ -397,7 +399,8 @@
             {
               "name": "Прошлый год",
               "values_field": "previous_year",
-              "color": "#9ca3af"
+              "color": "#9ca3af",
+              "optional": true
             }
           ],
           "xlabel": "",

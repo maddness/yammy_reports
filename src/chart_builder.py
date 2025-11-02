@@ -379,24 +379,43 @@ def extract_chart_data(source_data: Any, config: Dict[str, Any]) -> Dict[str, An
                 'values': []
             }
             if 'values_field' in series_config and isinstance(source_data, list):
+                # Check if series is optional
+                is_optional = series_config.get('optional', False)
                 values = []
+                has_any_value = False
+
                 for idx, item in enumerate(source_data):
                     value = item.get(series_config['values_field'])
                     if value is None:
-                        raise ValueError(
-                            f"Chart data item at index {idx} is missing required field '{series_config['values_field']}' for series '{series_data['name']}'"
-                        )
+                        if is_optional:
+                            # Skip this series if it's optional and data is missing
+                            values = None
+                            break
+                        else:
+                            raise ValueError(
+                                f"Chart data item at index {idx} is missing required field '{series_config['values_field']}' for series '{series_data['name']}'"
+                            )
                     # Validate numeric type
                     if not isinstance(value, (int, float)):
                         try:
                             value = float(value)
                         except (ValueError, TypeError):
+                            if is_optional:
+                                # Skip optional series with invalid data
+                                values = None
+                                break
                             raise ValueError(
                                 f"Chart data item at index {idx} has non-numeric value for field '{series_config['values_field']}' in series '{series_data['name']}': {value}"
                             )
+                    has_any_value = True
                     values.append(value)
-                series_data['values'] = values
-            chart_data['series'].append(series_data)
+
+                # Only add series if it has valid data
+                if values is not None and has_any_value:
+                    series_data['values'] = values
+                    chart_data['series'].append(series_data)
+            else:
+                chart_data['series'].append(series_data)
 
     # Handle scatter plot
     if config.get('x_field') and config.get('y_field'):
